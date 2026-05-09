@@ -1,0 +1,129 @@
+{
+  "rent_pressure": {
+    "rent_cpi": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "shelter_cpi": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "mortgage_rate": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "fed_funds_rate": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "real_wages": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "housing_price": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    }
+  },
+  "job_market": {
+    "unemployment": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "job_openings": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "initial_claims": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "labor_force_part": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "real_wage_growth": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    }
+  },
+  "inflation_pressure": {
+    "cpi_all": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "core_cpi": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "food_cpi": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "energy_cpi": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "gas_prices": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    }
+  },
+  "borrowing_pressure": {
+    "fed_funds_rate": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "credit_card_rate": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "mortgage_rate": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    }
+  },
+  "wage_strength": {
+    "avg_hourly_earn": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "real_hourly_earn": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    },
+    "cpi_inflation": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    }
+  },
+  "consumer_sentiment": {
+    "umich_sentiment": {
+      "value": null,
+      "yoy": null,
+      "date": null
+    }
+  }
+}
