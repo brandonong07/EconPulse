@@ -10,6 +10,8 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
+MODEL_DIR = BASE_DIR / "models"
+FRONTEND_DATA_DIR = BASE_DIR / "frontend" / "public" / "data"
 
 RAW_CACHE_PATH = RAW_DIR / "fred_raw.json"
 LEGACY_PROCESSED_CACHE_PATH = BASE_DIR / "fred_data.json"
@@ -22,6 +24,7 @@ PROCESSED_INDICATORS_PATH = PROCESSED_DIR / "processed_indicators.json"
 SCORES_PATH = PROCESSED_DIR / "scores.json"
 LATEST_METRICS_PATH = PROCESSED_DIR / "latest_metrics.json"
 MODEL_RESULTS_PATH = PROCESSED_DIR / "model_results.json"
+MODEL_ARTIFACTS_PATH = PROCESSED_DIR / "model_artifacts.json"
 DASHBOARD_METRICS_PATH = PROCESSED_DIR / "dashboard_metrics.json"
 
 FRED_BASE_URL = "https://api.stlouisfed.org/fred/series/observations"

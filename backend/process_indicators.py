@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -10,6 +11,43 @@ import pandas as pd
 
 from backend.config import SERIES
 from backend.scoring import MACRO_STATE_BUCKETS, macro_state_for_score
+
+
+CATEGORY_LABELS = {
+    "rent_pressure": "Rent Pressure",
+    "job_market_strength": "Job Market",
+    "inflation_pressure": "Inflation",
+    "borrowing_pressure": "Borrowing",
+    "wage_strength": "Wages",
+    "consumer_sentiment": "Consumer Sentiment",
+}
+
+CATEGORY_READS = {
+    "rent_pressure": {
+        "drag": "housing costs are still pressuring affordability",
+        "support": "housing affordability is not adding much extra stress",
+    },
+    "job_market_strength": {
+        "drag": "the labor market is softening",
+        "support": "the labor market is still providing support",
+    },
+    "inflation_pressure": {
+        "drag": "inflation conditions remain uncomfortable",
+        "support": "price pressure is more contained",
+    },
+    "borrowing_pressure": {
+        "drag": "borrowing conditions remain tight",
+        "support": "credit conditions are less restrictive",
+    },
+    "wage_strength": {
+        "drag": "wage momentum is not doing enough to offset costs",
+        "support": "wages are helping offset household costs",
+    },
+    "consumer_sentiment": {
+        "drag": "households are reporting weak confidence",
+        "support": "household confidence is helping the read",
+    },
+}
 
 
 def clean(series: pd.Series, freq: str = "MS") -> pd.Series:
@@ -140,6 +178,119 @@ def _state_counts(scores: pd.DataFrame) -> dict[str, dict[str, Any]]:
     }
 
 
+def _trend_sentence(change_1m: float | None, change_3m: float | None) -> str:
+    if change_1m is None:
+        return "Recent trend data is limited."
+
+    one_month = abs(change_1m)
+    if abs(change_1m) < 0.5:
+        direction = "was roughly flat over the last month"
+    elif change_1m > 0:
+        direction = f"improved by {one_month:.1f} points over the last month"
+    else:
+        direction = f"fell by {one_month:.1f} points over the last month"
+
+    if change_3m is None or abs(change_3m) < 0.5:
+        return f"The score {direction}."
+
+    three_month = abs(change_3m)
+    if change_3m > 0:
+        return f"The score {direction}, but it is still up {three_month:.1f} points over three months."
+    return f"The score {direction}, and it is down {three_month:.1f} points over three months."
+
+
+def _join_names(names: list[str]) -> str:
+    if not names:
+        return "the available categories"
+    if len(names) == 1:
+        return names[0]
+    if len(names) == 2:
+        return f"{names[0]} and {names[1]}"
+    return f"{', '.join(names[:-1])}, and {names[-1]}"
+
+
+def _outlook_sentence(state_key: str | None, trend_1m: float | None) -> str:
+    if state_key == "severe_stress":
+        return "This points to a high-stress economy where recession-like pressure is already visible."
+    if state_key == "strained":
+        if trend_1m is not None and trend_1m < -0.5:
+            return "This means the economy is under pressure and could slow further if weak confidence and cost conditions persist."
+        return "This means the economy is under pressure, but not in the deepest stress zone."
+    if state_key == "pre_growth":
+        return "This suggests an uneven economy: not crisis-level, but not broad-based growth yet."
+    if state_key == "normal":
+        return "This suggests a mostly stable economy with mixed but manageable pressure."
+    if state_key == "growth":
+        return "This suggests healthy economic momentum across most categories."
+    if state_key == "strong":
+        return "This suggests unusually strong broad-based expansion."
+    return "The outlook description is unavailable because the score is missing."
+
+
+def _score_explanation(
+    score_payload: dict[str, Any],
+    trends: dict[str, Any],
+    macro_state: dict[str, str | None],
+) -> dict[str, Any]:
+    overall = score_payload.get("overall_health")
+    if overall is None:
+        return {
+            "summary": "Overall health could not be calculated because too many inputs are missing.",
+            "drivers": [],
+            "supports": [],
+            "outlook": "Add more complete monthly data to generate an interpretation.",
+            "method": "Overall Health is a weighted 0-100 score built from labor, sentiment, inflation, wages, rent, and borrowing conditions.",
+        }
+
+    category_scores = {
+        key: float(value)
+        for key, value in score_payload.items()
+        if key != "overall_health" and pd.notna(value)
+    }
+    weak = sorted(category_scores.items(), key=lambda item: item[1])[:3]
+    strong = sorted(category_scores.items(), key=lambda item: item[1], reverse=True)[:2]
+
+    drivers = [
+        {
+            "key": key,
+            "label": CATEGORY_LABELS.get(key, key),
+            "score": round(value, 1),
+            "description": CATEGORY_READS.get(key, {}).get("drag", "this category is weighing on the score"),
+        }
+        for key, value in weak
+    ]
+    supports = [
+        {
+            "key": key,
+            "label": CATEGORY_LABELS.get(key, key),
+            "score": round(value, 1),
+            "description": CATEGORY_READS.get(key, {}).get("support", "this category is supporting the score"),
+        }
+        for key, value in strong
+    ]
+
+    main_drivers = _join_names([driver["label"].lower() for driver in drivers[:2]])
+    state_label = macro_state.get("label") or "Unknown"
+    summary = (
+        f"The {overall:.1f} score lands in the {state_label} range because the weakest inputs are "
+        f"{main_drivers}. {_trend_sentence(trends.get('overall_health_change_1m'), trends.get('overall_health_change_3m'))}"
+    )
+
+    return {
+        "summary": summary,
+        "drivers": drivers,
+        "supports": supports,
+        "outlook": _outlook_sentence(macro_state.get("key"), trends.get("overall_health_change_1m")),
+        "method": (
+            "Formula: base score = 30% job market + 20% consumer sentiment + 18% inflation "
+            "+ 12% wages + 10% rent + 10% borrowing. Higher category scores are better. "
+            "EconPulse then subtracts stress penalties when labor, sentiment, inflation, "
+            "borrowing, rent, or several categories at once are weak, widens the result around "
+            "50, and bounds it from 0 to 100."
+        ),
+    }
+
+
 def build_dashboard_metrics(
     scores: pd.DataFrame,
     latest: dict[str, Any],
@@ -167,20 +318,23 @@ def build_dashboard_metrics(
 
     overall_health = score_payload.get("overall_health")
     macro_state = macro_state_for_score(overall_health)
+    trends = {
+        "overall_health_change_1m": _metric_change(usable_scores, "overall_health", 1),
+        "overall_health_change_3m": _metric_change(usable_scores, "overall_health", 3),
+        "overall_health_change_12m": _metric_change(usable_scores, "overall_health", 12),
+        "student_cost_pressure_change_1m": model_results.get("student_cost_pressure_change_1m"),
+        "student_cost_pressure_change_3m": model_results.get("student_cost_pressure_change_3m"),
+    }
 
     return {
         "as_of": as_of,
+        "data_refreshed_at": date.today().isoformat(),
         "raw_data_source": raw_source,
         "overall_health": overall_health,
         "macro_state": macro_state,
         "state_counts": _state_counts(scores),
-        "trends": {
-            "overall_health_change_1m": _metric_change(usable_scores, "overall_health", 1),
-            "overall_health_change_3m": _metric_change(usable_scores, "overall_health", 3),
-            "overall_health_change_12m": _metric_change(usable_scores, "overall_health", 12),
-            "student_cost_pressure_change_1m": model_results.get("student_cost_pressure_change_1m"),
-            "student_cost_pressure_change_3m": model_results.get("student_cost_pressure_change_3m"),
-        },
+        "trends": trends,
+        "score_explanation": _score_explanation(score_payload, trends, macro_state),
         "category_scores": {
             key: value
             for key, value in score_payload.items()
@@ -191,6 +345,8 @@ def build_dashboard_metrics(
             "current": model_results.get("latest_student_cost_pressure"),
             "prediction_3_months_ahead": model_results.get("best_prediction"),
             "prediction_date": model_results.get("prediction_date"),
+            "prediction_label": "3-month forecast",
+            "prediction_note": "Forecast target only; this is not observed future FRED data.",
             "best_model": model_results.get("best_model"),
         },
     }

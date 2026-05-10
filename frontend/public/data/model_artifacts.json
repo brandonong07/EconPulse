@@ -1,0 +1,1086 @@
+{
+  "status": "evaluated",
+  "source": "saved_model_files",
+  "features": [
+    "rent_pressure",
+    "job_market_strength",
+    "inflation_pressure",
+    "borrowing_pressure",
+    "wage_strength",
+    "consumer_sentiment"
+  ],
+  "base_input": {
+    "rent_pressure": 51.6415,
+    "job_market_strength": 50.8366,
+    "inflation_pressure": 48.4585,
+    "borrowing_pressure": 47.408,
+    "wage_strength": 52.4491,
+    "consumer_sentiment": 28.0664
+  },
+  "models": [
+    {
+      "key": "multiple_linear_regression",
+      "label": "Multiple Linear Regression",
+      "file": "multiple_linear_regression_model.pkl",
+      "kind": "sklearn",
+      "status": "available",
+      "model_class": "sklearn.linear_model._base.LinearRegression",
+      "feature_names": [
+        "rent_pressure",
+        "job_market_strength",
+        "inflation_pressure",
+        "borrowing_pressure",
+        "wage_strength",
+        "consumer_sentiment"
+      ],
+      "feature_count": 6,
+      "prediction": 47.3074,
+      "sensitivity": {
+        "rent_pressure": {
+          "base_value": 51.6415,
+          "approx_slope_per_point": -0.16666,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 31.6415,
+              "prediction": 50.6407
+            },
+            {
+              "delta": -10,
+              "feature_value": 41.6415,
+              "prediction": 48.974
+            },
+            {
+              "delta": -5,
+              "feature_value": 46.6415,
+              "prediction": 48.1407
+            },
+            {
+              "delta": 0,
+              "feature_value": 51.6415,
+              "prediction": 47.3074
+            },
+            {
+              "delta": 5,
+              "feature_value": 56.6415,
+              "prediction": 46.474
+            },
+            {
+              "delta": 10,
+              "feature_value": 61.6415,
+              "prediction": 45.6407
+            },
+            {
+              "delta": 20,
+              "feature_value": 71.6415,
+              "prediction": 43.974
+            }
+          ]
+        },
+        "job_market_strength": {
+          "base_value": 50.8366,
+          "approx_slope_per_point": 0.16666,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 30.8366,
+              "prediction": 43.974
+            },
+            {
+              "delta": -10,
+              "feature_value": 40.8366,
+              "prediction": 45.6407
+            },
+            {
+              "delta": -5,
+              "feature_value": 45.8366,
+              "prediction": 46.474
+            },
+            {
+              "delta": 0,
+              "feature_value": 50.8366,
+              "prediction": 47.3074
+            },
+            {
+              "delta": 5,
+              "feature_value": 55.8366,
+              "prediction": 48.1407
+            },
+            {
+              "delta": 10,
+              "feature_value": 60.8366,
+              "prediction": 48.974
+            },
+            {
+              "delta": 20,
+              "feature_value": 70.8366,
+              "prediction": 50.6407
+            }
+          ]
+        },
+        "inflation_pressure": {
+          "base_value": 48.4585,
+          "approx_slope_per_point": -0.16666,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 28.4585,
+              "prediction": 50.6407
+            },
+            {
+              "delta": -10,
+              "feature_value": 38.4585,
+              "prediction": 48.974
+            },
+            {
+              "delta": -5,
+              "feature_value": 43.4585,
+              "prediction": 48.1407
+            },
+            {
+              "delta": 0,
+              "feature_value": 48.4585,
+              "prediction": 47.3074
+            },
+            {
+              "delta": 5,
+              "feature_value": 53.4585,
+              "prediction": 46.474
+            },
+            {
+              "delta": 10,
+              "feature_value": 58.4585,
+              "prediction": 45.6407
+            },
+            {
+              "delta": 20,
+              "feature_value": 68.4585,
+              "prediction": 43.974
+            }
+          ]
+        },
+        "borrowing_pressure": {
+          "base_value": 47.408,
+          "approx_slope_per_point": -0.16666,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 27.408,
+              "prediction": 50.6407
+            },
+            {
+              "delta": -10,
+              "feature_value": 37.408,
+              "prediction": 48.974
+            },
+            {
+              "delta": -5,
+              "feature_value": 42.408,
+              "prediction": 48.1407
+            },
+            {
+              "delta": 0,
+              "feature_value": 47.408,
+              "prediction": 47.3074
+            },
+            {
+              "delta": 5,
+              "feature_value": 52.408,
+              "prediction": 46.474
+            },
+            {
+              "delta": 10,
+              "feature_value": 57.408,
+              "prediction": 45.6407
+            },
+            {
+              "delta": 20,
+              "feature_value": 67.408,
+              "prediction": 43.974
+            }
+          ]
+        },
+        "wage_strength": {
+          "base_value": 52.4491,
+          "approx_slope_per_point": 0.16666,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 32.4491,
+              "prediction": 43.974
+            },
+            {
+              "delta": -10,
+              "feature_value": 42.4491,
+              "prediction": 45.6407
+            },
+            {
+              "delta": -5,
+              "feature_value": 47.4491,
+              "prediction": 46.474
+            },
+            {
+              "delta": 0,
+              "feature_value": 52.4491,
+              "prediction": 47.3074
+            },
+            {
+              "delta": 5,
+              "feature_value": 57.4491,
+              "prediction": 48.1407
+            },
+            {
+              "delta": 10,
+              "feature_value": 62.4491,
+              "prediction": 48.974
+            },
+            {
+              "delta": 20,
+              "feature_value": 72.4491,
+              "prediction": 50.6407
+            }
+          ]
+        },
+        "consumer_sentiment": {
+          "base_value": 28.0664,
+          "approx_slope_per_point": 0.16666,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 8.0664,
+              "prediction": 43.974
+            },
+            {
+              "delta": -10,
+              "feature_value": 18.0664,
+              "prediction": 45.6407
+            },
+            {
+              "delta": -5,
+              "feature_value": 23.0664,
+              "prediction": 46.474
+            },
+            {
+              "delta": 0,
+              "feature_value": 28.0664,
+              "prediction": 47.3074
+            },
+            {
+              "delta": 5,
+              "feature_value": 33.0664,
+              "prediction": 48.1407
+            },
+            {
+              "delta": 10,
+              "feature_value": 38.0664,
+              "prediction": 48.974
+            },
+            {
+              "delta": 20,
+              "feature_value": 48.0664,
+              "prediction": 50.6407
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "xgboost_saved",
+      "label": "XGBoost",
+      "file": "xgboost_model.pkl",
+      "kind": "xgboost",
+      "status": "available",
+      "model_class": "xgboost.sklearn.XGBRegressor",
+      "feature_names": [
+        "rent_pressure",
+        "job_market_strength",
+        "inflation_pressure",
+        "borrowing_pressure",
+        "wage_strength",
+        "consumer_sentiment"
+      ],
+      "feature_count": 6,
+      "prediction": 51.241,
+      "sensitivity": {
+        "rent_pressure": {
+          "base_value": 51.6415,
+          "approx_slope_per_point": -0.38527,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 31.6415,
+              "prediction": 60.62
+            },
+            {
+              "delta": -10,
+              "feature_value": 41.6415,
+              "prediction": 56.4633
+            },
+            {
+              "delta": -5,
+              "feature_value": 46.6415,
+              "prediction": 56.4633
+            },
+            {
+              "delta": 0,
+              "feature_value": 51.6415,
+              "prediction": 51.241
+            },
+            {
+              "delta": 5,
+              "feature_value": 56.6415,
+              "prediction": 50.4582
+            },
+            {
+              "delta": 10,
+              "feature_value": 61.6415,
+              "prediction": 48.7578
+            },
+            {
+              "delta": 20,
+              "feature_value": 71.6415,
+              "prediction": 42.069
+            }
+          ]
+        },
+        "job_market_strength": {
+          "base_value": 50.8366,
+          "approx_slope_per_point": 0.00496,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 30.8366,
+              "prediction": 51.241
+            },
+            {
+              "delta": -10,
+              "feature_value": 40.8366,
+              "prediction": 51.241
+            },
+            {
+              "delta": -5,
+              "feature_value": 45.8366,
+              "prediction": 51.241
+            },
+            {
+              "delta": 0,
+              "feature_value": 50.8366,
+              "prediction": 51.241
+            },
+            {
+              "delta": 5,
+              "feature_value": 55.8366,
+              "prediction": 51.241
+            },
+            {
+              "delta": 10,
+              "feature_value": 60.8366,
+              "prediction": 51.3402
+            },
+            {
+              "delta": 20,
+              "feature_value": 70.8366,
+              "prediction": 51.3402
+            }
+          ]
+        },
+        "inflation_pressure": {
+          "base_value": 48.4585,
+          "approx_slope_per_point": 0.0,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 28.4585,
+              "prediction": 51.241
+            },
+            {
+              "delta": -10,
+              "feature_value": 38.4585,
+              "prediction": 51.241
+            },
+            {
+              "delta": -5,
+              "feature_value": 43.4585,
+              "prediction": 51.241
+            },
+            {
+              "delta": 0,
+              "feature_value": 48.4585,
+              "prediction": 51.241
+            },
+            {
+              "delta": 5,
+              "feature_value": 53.4585,
+              "prediction": 51.241
+            },
+            {
+              "delta": 10,
+              "feature_value": 58.4585,
+              "prediction": 51.241
+            },
+            {
+              "delta": 20,
+              "feature_value": 68.4585,
+              "prediction": 49.1987
+            }
+          ]
+        },
+        "borrowing_pressure": {
+          "base_value": 47.408,
+          "approx_slope_per_point": -0.00964,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 27.408,
+              "prediction": 51.241
+            },
+            {
+              "delta": -10,
+              "feature_value": 37.408,
+              "prediction": 51.241
+            },
+            {
+              "delta": -5,
+              "feature_value": 42.408,
+              "prediction": 51.241
+            },
+            {
+              "delta": 0,
+              "feature_value": 47.408,
+              "prediction": 51.241
+            },
+            {
+              "delta": 5,
+              "feature_value": 52.408,
+              "prediction": 51.0483
+            },
+            {
+              "delta": 10,
+              "feature_value": 57.408,
+              "prediction": 51.0483
+            },
+            {
+              "delta": 20,
+              "feature_value": 67.408,
+              "prediction": 51.0483
+            }
+          ]
+        },
+        "wage_strength": {
+          "base_value": 52.4491,
+          "approx_slope_per_point": 0.03183,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 32.4491,
+              "prediction": 50.526
+            },
+            {
+              "delta": -10,
+              "feature_value": 42.4491,
+              "prediction": 50.6798
+            },
+            {
+              "delta": -5,
+              "feature_value": 47.4491,
+              "prediction": 51.241
+            },
+            {
+              "delta": 0,
+              "feature_value": 52.4491,
+              "prediction": 51.241
+            },
+            {
+              "delta": 5,
+              "feature_value": 57.4491,
+              "prediction": 51.241
+            },
+            {
+              "delta": 10,
+              "feature_value": 62.4491,
+              "prediction": 51.3164
+            },
+            {
+              "delta": 20,
+              "feature_value": 72.4491,
+              "prediction": 51.2862
+            }
+          ]
+        },
+        "consumer_sentiment": {
+          "base_value": 28.0664,
+          "approx_slope_per_point": 0.01911,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 8.0664,
+              "prediction": 50.6176
+            },
+            {
+              "delta": -10,
+              "feature_value": 18.0664,
+              "prediction": 50.8154
+            },
+            {
+              "delta": -5,
+              "feature_value": 23.0664,
+              "prediction": 51.0367
+            },
+            {
+              "delta": 0,
+              "feature_value": 28.0664,
+              "prediction": 51.241
+            },
+            {
+              "delta": 5,
+              "feature_value": 33.0664,
+              "prediction": 51.2101
+            },
+            {
+              "delta": 10,
+              "feature_value": 38.0664,
+              "prediction": 51.1976
+            },
+            {
+              "delta": 20,
+              "feature_value": 48.0664,
+              "prediction": 51.3998
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "lightgbm_saved",
+      "label": "LightGBM",
+      "file": "lightgbm_model.pkl",
+      "kind": "lightgbm",
+      "status": "available",
+      "model_class": "lightgbm.sklearn.LGBMRegressor",
+      "feature_names": [
+        "rent_pressure",
+        "job_market_strength",
+        "inflation_pressure",
+        "borrowing_pressure",
+        "wage_strength",
+        "consumer_sentiment"
+      ],
+      "feature_count": 6,
+      "prediction": 48.2315,
+      "sensitivity": {
+        "rent_pressure": {
+          "base_value": 51.6415,
+          "approx_slope_per_point": -0.3829,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 31.6415,
+              "prediction": 60.2796
+            },
+            {
+              "delta": -10,
+              "feature_value": 41.6415,
+              "prediction": 55.0915
+            },
+            {
+              "delta": -5,
+              "feature_value": 46.6415,
+              "prediction": 53.1609
+            },
+            {
+              "delta": 0,
+              "feature_value": 51.6415,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 5,
+              "feature_value": 56.6415,
+              "prediction": 47.4336
+            },
+            {
+              "delta": 10,
+              "feature_value": 61.6415,
+              "prediction": 47.4336
+            },
+            {
+              "delta": 20,
+              "feature_value": 71.6415,
+              "prediction": 44.0753
+            }
+          ]
+        },
+        "job_market_strength": {
+          "base_value": 50.8366,
+          "approx_slope_per_point": 0.0,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 30.8366,
+              "prediction": 48.2315
+            },
+            {
+              "delta": -10,
+              "feature_value": 40.8366,
+              "prediction": 48.2315
+            },
+            {
+              "delta": -5,
+              "feature_value": 45.8366,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 0,
+              "feature_value": 50.8366,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 5,
+              "feature_value": 55.8366,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 10,
+              "feature_value": 60.8366,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 20,
+              "feature_value": 70.8366,
+              "prediction": 48.2315
+            }
+          ]
+        },
+        "inflation_pressure": {
+          "base_value": 48.4585,
+          "approx_slope_per_point": -0.00587,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 28.4585,
+              "prediction": 48.2315
+            },
+            {
+              "delta": -10,
+              "feature_value": 38.4585,
+              "prediction": 48.2315
+            },
+            {
+              "delta": -5,
+              "feature_value": 43.4585,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 0,
+              "feature_value": 48.4585,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 5,
+              "feature_value": 53.4585,
+              "prediction": 48.1141
+            },
+            {
+              "delta": 10,
+              "feature_value": 58.4585,
+              "prediction": 48.1141
+            },
+            {
+              "delta": 20,
+              "feature_value": 68.4585,
+              "prediction": 45.53
+            }
+          ]
+        },
+        "borrowing_pressure": {
+          "base_value": 47.408,
+          "approx_slope_per_point": -0.09697,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 27.408,
+              "prediction": 50.1708
+            },
+            {
+              "delta": -10,
+              "feature_value": 37.408,
+              "prediction": 50.1708
+            },
+            {
+              "delta": -5,
+              "feature_value": 42.408,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 0,
+              "feature_value": 47.408,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 5,
+              "feature_value": 52.408,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 10,
+              "feature_value": 57.408,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 20,
+              "feature_value": 67.408,
+              "prediction": 48.2315
+            }
+          ]
+        },
+        "wage_strength": {
+          "base_value": 52.4491,
+          "approx_slope_per_point": 0.04281,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 32.4491,
+              "prediction": 46.6703
+            },
+            {
+              "delta": -10,
+              "feature_value": 42.4491,
+              "prediction": 47.3752
+            },
+            {
+              "delta": -5,
+              "feature_value": 47.4491,
+              "prediction": 48.6708
+            },
+            {
+              "delta": 0,
+              "feature_value": 52.4491,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 5,
+              "feature_value": 57.4491,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 10,
+              "feature_value": 62.4491,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 20,
+              "feature_value": 72.4491,
+              "prediction": 48.2315
+            }
+          ]
+        },
+        "consumer_sentiment": {
+          "base_value": 28.0664,
+          "approx_slope_per_point": 0.02521,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 8.0664,
+              "prediction": 47.7273
+            },
+            {
+              "delta": -10,
+              "feature_value": 18.0664,
+              "prediction": 47.7273
+            },
+            {
+              "delta": -5,
+              "feature_value": 23.0664,
+              "prediction": 47.7273
+            },
+            {
+              "delta": 0,
+              "feature_value": 28.0664,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 5,
+              "feature_value": 33.0664,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 10,
+              "feature_value": 38.0664,
+              "prediction": 48.2315
+            },
+            {
+              "delta": 20,
+              "feature_value": 48.0664,
+              "prediction": 48.5157
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "mlp_saved",
+      "label": "MLP Neural Network",
+      "file": "mlp_model.pkl",
+      "kind": "sklearn_mlp",
+      "status": "available",
+      "model_class": "sklearn.neural_network._multilayer_perceptron.MLPRegressor",
+      "feature_names": [
+        "rent_pressure",
+        "job_market_strength",
+        "inflation_pressure",
+        "borrowing_pressure",
+        "wage_strength",
+        "consumer_sentiment"
+      ],
+      "feature_count": 6,
+      "prediction": 33.2674,
+      "sensitivity": {
+        "rent_pressure": {
+          "base_value": 51.6415,
+          "approx_slope_per_point": -0.13435,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 31.6415,
+              "prediction": 36.007
+            },
+            {
+              "delta": -10,
+              "feature_value": 41.6415,
+              "prediction": 34.7377
+            },
+            {
+              "delta": -5,
+              "feature_value": 46.6415,
+              "prediction": 34.0442
+            },
+            {
+              "delta": 0,
+              "feature_value": 51.6415,
+              "prediction": 33.2674
+            },
+            {
+              "delta": 5,
+              "feature_value": 56.6415,
+              "prediction": 32.6305
+            },
+            {
+              "delta": 10,
+              "feature_value": 61.6415,
+              "prediction": 32.0507
+            },
+            {
+              "delta": 20,
+              "feature_value": 71.6415,
+              "prediction": 31.6318
+            }
+          ]
+        },
+        "job_market_strength": {
+          "base_value": 50.8366,
+          "approx_slope_per_point": 0.02833,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 30.8366,
+              "prediction": 34.4169
+            },
+            {
+              "delta": -10,
+              "feature_value": 40.8366,
+              "prediction": 33.0085
+            },
+            {
+              "delta": -5,
+              "feature_value": 45.8366,
+              "prediction": 32.9273
+            },
+            {
+              "delta": 0,
+              "feature_value": 50.8366,
+              "prediction": 33.2674
+            },
+            {
+              "delta": 5,
+              "feature_value": 55.8366,
+              "prediction": 33.9857
+            },
+            {
+              "delta": 10,
+              "feature_value": 60.8366,
+              "prediction": 33.575
+            },
+            {
+              "delta": 20,
+              "feature_value": 70.8366,
+              "prediction": 34.1154
+            }
+          ]
+        },
+        "inflation_pressure": {
+          "base_value": 48.4585,
+          "approx_slope_per_point": -0.24622,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 28.4585,
+              "prediction": 38.2872
+            },
+            {
+              "delta": -10,
+              "feature_value": 38.4585,
+              "prediction": 36.2818
+            },
+            {
+              "delta": -5,
+              "feature_value": 43.4585,
+              "prediction": 34.7756
+            },
+            {
+              "delta": 0,
+              "feature_value": 48.4585,
+              "prediction": 33.2674
+            },
+            {
+              "delta": 5,
+              "feature_value": 53.4585,
+              "prediction": 32.0738
+            },
+            {
+              "delta": 10,
+              "feature_value": 58.4585,
+              "prediction": 31.3574
+            },
+            {
+              "delta": 20,
+              "feature_value": 68.4585,
+              "prediction": 30.9996
+            }
+          ]
+        },
+        "borrowing_pressure": {
+          "base_value": 47.408,
+          "approx_slope_per_point": -0.5455,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 27.408,
+              "prediction": 45.0153
+            },
+            {
+              "delta": -10,
+              "feature_value": 37.408,
+              "prediction": 39.0217
+            },
+            {
+              "delta": -5,
+              "feature_value": 42.408,
+              "prediction": 36.1055
+            },
+            {
+              "delta": 0,
+              "feature_value": 47.408,
+              "prediction": 33.2674
+            },
+            {
+              "delta": 5,
+              "feature_value": 52.408,
+              "prediction": 30.5715
+            },
+            {
+              "delta": 10,
+              "feature_value": 57.408,
+              "prediction": 28.1118
+            },
+            {
+              "delta": 20,
+              "feature_value": 67.408,
+              "prediction": 24.1675
+            }
+          ]
+        },
+        "wage_strength": {
+          "base_value": 52.4491,
+          "approx_slope_per_point": 0.2517,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 32.4491,
+              "prediction": 29.8806
+            },
+            {
+              "delta": -10,
+              "feature_value": 42.4491,
+              "prediction": 31.1359
+            },
+            {
+              "delta": -5,
+              "feature_value": 47.4491,
+              "prediction": 32.099
+            },
+            {
+              "delta": 0,
+              "feature_value": 52.4491,
+              "prediction": 33.2674
+            },
+            {
+              "delta": 5,
+              "feature_value": 57.4491,
+              "prediction": 34.7013
+            },
+            {
+              "delta": 10,
+              "feature_value": 62.4491,
+              "prediction": 36.1698
+            },
+            {
+              "delta": 20,
+              "feature_value": 72.4491,
+              "prediction": 39.4853
+            }
+          ]
+        },
+        "consumer_sentiment": {
+          "base_value": 28.0664,
+          "approx_slope_per_point": -0.14393,
+          "points": [
+            {
+              "delta": -20,
+              "feature_value": 8.0664,
+              "prediction": 37.7136
+            },
+            {
+              "delta": -10,
+              "feature_value": 18.0664,
+              "prediction": 34.9946
+            },
+            {
+              "delta": -5,
+              "feature_value": 23.0664,
+              "prediction": 33.9527
+            },
+            {
+              "delta": 0,
+              "feature_value": 28.0664,
+              "prediction": 33.2674
+            },
+            {
+              "delta": 5,
+              "feature_value": 33.0664,
+              "prediction": 32.6536
+            },
+            {
+              "delta": 10,
+              "feature_value": 38.0664,
+              "prediction": 32.116
+            },
+            {
+              "delta": 20,
+              "feature_value": 48.0664,
+              "prediction": 31.4744
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

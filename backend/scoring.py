@@ -15,39 +15,39 @@ MACRO_HEALTH_WEIGHTS = {
     "rent_pressure": 0.10,
     "borrowing_pressure": 0.10,
 }
-MACRO_HEALTH_SPREAD = 2.0
+MACRO_HEALTH_SPREAD = 1.5
 MACRO_STATE_BUCKETS = [
     {
-        "key": "troubled",
-        "label": "Troubled / Severe Contraction",
+        "key": "severe_stress",
+        "label": "Severe Stress",
         "range": "0-20",
         "min": 0,
         "max": 20,
     },
     {
-        "key": "recessive",
-        "label": "Recessive / Strained",
+        "key": "strained",
+        "label": "Strained",
         "range": "20-40",
         "min": 20,
         "max": 40,
     },
     {
         "key": "pre_growth",
-        "label": "Pre-Growth / Fragile",
+        "label": "Fragile",
         "range": "40-50",
         "min": 40,
         "max": 50,
     },
     {
         "key": "normal",
-        "label": "Normal / Stable",
+        "label": "Stable",
         "range": "50-60",
         "min": 50,
         "max": 60,
     },
     {
         "key": "growth",
-        "label": "Growth / Healthy",
+        "label": "Healthy",
         "range": "60-80",
         "min": 60,
         "max": 80,
@@ -121,25 +121,25 @@ def _macro_stress_penalty(score_df: pd.DataFrame) -> pd.Series:
 
     if "job_market_strength" in score_df:
         job = score_df["job_market_strength"]
-        penalty += (40 - job).clip(lower=0) * 0.9
-        penalty += (30 - job).clip(lower=0) * 0.9
+        penalty += (40 - job).clip(lower=0) * 0.65
+        penalty += (30 - job).clip(lower=0) * 0.50
 
     if "consumer_sentiment" in score_df:
-        penalty += (40 - score_df["consumer_sentiment"]).clip(lower=0) * 0.35
+        penalty += (40 - score_df["consumer_sentiment"]).clip(lower=0) * 0.22
 
     if "inflation_pressure" in score_df:
-        penalty += (35 - score_df["inflation_pressure"]).clip(lower=0) * 0.45
+        penalty += (35 - score_df["inflation_pressure"]).clip(lower=0) * 0.28
 
     if "borrowing_pressure" in score_df:
-        penalty += (35 - score_df["borrowing_pressure"]).clip(lower=0) * 0.25
+        penalty += (35 - score_df["borrowing_pressure"]).clip(lower=0) * 0.16
 
     if "rent_pressure" in score_df:
-        penalty += (35 - score_df["rent_pressure"]).clip(lower=0) * 0.25
+        penalty += (35 - score_df["rent_pressure"]).clip(lower=0) * 0.16
 
     stress_columns = [column for column in MACRO_HEALTH_WEIGHTS if column in score_df.columns]
     if stress_columns:
         weak_category_count = score_df[stress_columns].lt(40).sum(axis=1)
-        penalty += (weak_category_count - 2).clip(lower=0) * 4
+        penalty += (weak_category_count - 2).clip(lower=0) * 2
 
     return penalty
 

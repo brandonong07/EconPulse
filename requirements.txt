@@ -3,5 +3,5 @@ numpy
 requests
 scikit-learn
 
-# Optional. Uncomment if you want the XGBoost model in addition to Linear Regression.
-# xgboost
+xgboost
+lightgbm
