@@ -1,0 +1,154 @@
+{
+  "target": "student_cost_pressure_3_months_ahead",
+  "horizon_months": 3,
+  "status": "trained",
+  "validation_strategy": "chronological_holdout_with_walk_forward_ridge_check",
+  "training_rows": 214,
+  "test_rows": 43,
+  "feature_columns": [
+    "rent_pressure",
+    "job_market_strength",
+    "inflation_pressure",
+    "borrowing_pressure",
+    "wage_strength",
+    "consumer_sentiment",
+    "overall_health",
+    "student_cost_pressure",
+    "rent_pressure_lag_1",
+    "rent_pressure_lag_3",
+    "rent_pressure_lag_6",
+    "rent_pressure_lag_12",
+    "rent_pressure_roll_3",
+    "rent_pressure_roll_6",
+    "rent_pressure_roll_12",
+    "job_market_strength_lag_1",
+    "job_market_strength_lag_3",
+    "job_market_strength_lag_6",
+    "job_market_strength_lag_12",
+    "job_market_strength_roll_3",
+    "job_market_strength_roll_6",
+    "job_market_strength_roll_12",
+    "inflation_pressure_lag_1",
+    "inflation_pressure_lag_3",
+    "inflation_pressure_lag_6",
+    "inflation_pressure_lag_12",
+    "inflation_pressure_roll_3",
+    "inflation_pressure_roll_6",
+    "inflation_pressure_roll_12",
+    "borrowing_pressure_lag_1",
+    "borrowing_pressure_lag_3",
+    "borrowing_pressure_lag_6",
+    "borrowing_pressure_lag_12",
+    "borrowing_pressure_roll_3",
+    "borrowing_pressure_roll_6",
+    "borrowing_pressure_roll_12",
+    "wage_strength_lag_1",
+    "wage_strength_lag_3",
+    "wage_strength_lag_6",
+    "wage_strength_lag_12",
+    "wage_strength_roll_3",
+    "wage_strength_roll_6",
+    "wage_strength_roll_12",
+    "consumer_sentiment_lag_1",
+    "consumer_sentiment_lag_3",
+    "consumer_sentiment_lag_6",
+    "consumer_sentiment_lag_12",
+    "consumer_sentiment_roll_3",
+    "consumer_sentiment_roll_6",
+    "consumer_sentiment_roll_12",
+    "overall_health_lag_1",
+    "overall_health_lag_3",
+    "overall_health_lag_6",
+    "overall_health_lag_12",
+    "overall_health_roll_3",
+    "overall_health_roll_6",
+    "overall_health_roll_12",
+    "student_cost_pressure_lag_1",
+    "student_cost_pressure_lag_3",
+    "student_cost_pressure_lag_6",
+    "student_cost_pressure_lag_12",
+    "student_cost_pressure_roll_3",
+    "student_cost_pressure_roll_6",
+    "student_cost_pressure_roll_12"
+  ],
+  "latest_student_cost_pressure": 50.039,
+  "student_cost_pressure_change_1m": -0.1183,
+  "student_cost_pressure_change_3m": -1.2834,
+  "prediction_date": "2026-06-01",
+  "best_model": "naive_current_pressure",
+  "best_prediction": 50.039,
+  "beats_naive_current_pressure": false,
+  "walk_forward_validation": {
+    "status": "evaluated",
+    "model": "ridge_regression",
+    "feature_count": 8,
+    "initial_train_rows": 60,
+    "test_windows": 154,
+    "metrics": {
+      "mae": 1.2839,
+      "rmse": 2.0466,
+      "r2": 0.9186
+    }
+  },
+  "xgboost_available": true,
+  "models": [
+    {
+      "model": "naive_current_pressure",
+      "backend": "baseline",
+      "metrics": {
+        "mae": 1.5832,
+        "rmse": 1.9977,
+        "r2": 0.8844
+      },
+      "prediction": 50.039,
+      "description": "Predicts future pressure equals current pressure."
+    },
+    {
+      "model": "naive_rolling_3_month",
+      "backend": "baseline",
+      "metrics": {
+        "mae": 2.1283,
+        "rmse": 2.5748,
+        "r2": 0.808
+      },
+      "prediction": 50.1422,
+      "description": "Predicts future pressure equals the recent 3-month average."
+    },
+    {
+      "model": "linear_regression",
+      "backend": "sklearn",
+      "metrics": {
+        "mae": 2.2798,
+        "rmse": 2.6435,
+        "r2": 0.7976
+      },
+      "prediction": 47.9081,
+      "feature_set": "pressure_autoregressive",
+      "feature_count": 8
+    },
+    {
+      "model": "ridge_regression",
+      "backend": "sklearn",
+      "metrics": {
+        "mae": 4.7408,
+        "rmse": 5.2085,
+        "r2": 0.2142
+      },
+      "prediction": 49.7354,
+      "feature_set": "macro_snapshot",
+      "feature_count": 8
+    },
+    {
+      "model": "xgboost_regressor",
+      "backend": "xgboost",
+      "metrics": {
+        "mae": 7.7505,
+        "rmse": 8.1828,
+        "r2": -0.9394
+      },
+      "prediction": 46.5609,
+      "feature_set": "all_lagged_macro_features",
+      "feature_count": 64
+    }
+  ]
+}
