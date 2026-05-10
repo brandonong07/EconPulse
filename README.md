@@ -6,6 +6,8 @@ EconPulse is a student-centered economic dashboard that turns public FRED
 economic indicators into practical financial awareness for students and young
 adults.
 
+Coding Languages: JavaScript, TypeScript, HTML, CSS
+
 ## Tech Stack
 
 - Frontend: React 18, TypeScript, Vite, Recharts, lucide-react, CSS
