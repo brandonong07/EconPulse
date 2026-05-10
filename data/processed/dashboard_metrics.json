@@ -1,0 +1,215 @@
+{
+  "as_of": "2026-03-01",
+  "raw_data_source": "fred",
+  "overall_health": 33.2178,
+  "macro_state": {
+    "key": "recessive",
+    "label": "Recessive / Strained",
+    "range": "20-40"
+  },
+  "state_counts": {
+    "troubled": {
+      "label": "Troubled / Severe Contraction",
+      "range": "0-20",
+      "months": 19
+    },
+    "recessive": {
+      "label": "Recessive / Strained",
+      "range": "20-40",
+      "months": 54
+    },
+    "pre_growth": {
+      "label": "Pre-Growth / Fragile",
+      "range": "40-50",
+      "months": 110
+    },
+    "normal": {
+      "label": "Normal / Stable",
+      "range": "50-60",
+      "months": 208
+    },
+    "growth": {
+      "label": "Growth / Healthy",
+      "range": "60-80",
+      "months": 32
+    },
+    "strong": {
+      "label": "Strong Expansion",
+      "range": "80-100",
+      "months": 0
+    }
+  },
+  "trends": {
+    "overall_health_change_1m": -2.7589,
+    "overall_health_change_3m": 1.2175,
+    "overall_health_change_12m": -1.6286,
+    "student_cost_pressure_change_1m": -0.1183,
+    "student_cost_pressure_change_3m": -1.2834
+  },
+  "category_scores": {
+    "rent_pressure": 51.6415,
+    "job_market_strength": 50.8366,
+    "inflation_pressure": 48.4585,
+    "borrowing_pressure": 47.408,
+    "wage_strength": 52.4491,
+    "consumer_sentiment": 28.0664
+  },
+  "latest_metrics": {
+    "rent_pressure": {
+      "rent_cpi": {
+        "series_id": "CUSR0000SEHA",
+        "value": 442.705,
+        "yoy": 2.5623,
+        "date": "2026-03-01"
+      },
+      "shelter_cpi": {
+        "series_id": "CUSR0000SAH1",
+        "value": 424.069,
+        "yoy": 3.0196,
+        "date": "2026-03-01"
+      },
+      "mortgage_rate": {
+        "series_id": "MORTGAGE30US",
+        "value": 6.37,
+        "yoy": -7.5472,
+        "date": "2026-05-01"
+      },
+      "fed_funds_rate": {
+        "series_id": "FEDFUNDS",
+        "value": 3.64,
+        "yoy": -15.9353,
+        "date": "2026-04-01"
+      },
+      "real_wages": {
+        "series_id": "AHETPI",
+        "value": 32.23,
+        "yoy": 3.6668,
+        "date": "2026-04-01"
+      },
+      "housing_price": {
+        "series_id": "CSUSHPISA",
+        "value": 332.098,
+        "yoy": 0.6614,
+        "date": "2026-02-01"
+      }
+    },
+    "job_market": {
+      "unemployment": {
+        "series_id": "UNRATE",
+        "value": 4.3,
+        "yoy": 2.381,
+        "date": "2026-04-01"
+      },
+      "job_openings": {
+        "series_id": "JTSJOL",
+        "value": 6866.0,
+        "yoy": -1.2371,
+        "date": "2026-03-01"
+      },
+      "initial_claims": {
+        "series_id": "ICSA",
+        "value": 200000.0,
+        "yoy": -18.0328,
+        "date": "2026-05-01"
+      },
+      "labor_force_part": {
+        "series_id": "CIVPART",
+        "value": 61.8,
+        "yoy": -1.278,
+        "date": "2026-04-01"
+      },
+      "real_wage_growth": {
+        "series_id": "CES0500000003",
+        "value": 37.41,
+        "yoy": 3.5714,
+        "date": "2026-04-01"
+      }
+    },
+    "inflation_pressure": {
+      "cpi_all": {
+        "series_id": "CPIAUCSL",
+        "value": 330.293,
+        "yoy": 3.286,
+        "date": "2026-03-01"
+      },
+      "core_cpi": {
+        "series_id": "CPILFESL",
+        "value": 334.165,
+        "yoy": 2.6022,
+        "date": "2026-03-01"
+      },
+      "food_cpi": {
+        "series_id": "CPIUFDSL",
+        "value": 346.603,
+        "yoy": 2.7486,
+        "date": "2026-03-01"
+      },
+      "energy_cpi": {
+        "series_id": "CPIENGSL",
+        "value": 314.019,
+        "yoy": 12.5895,
+        "date": "2026-03-01"
+      },
+      "gas_prices": {
+        "series_id": "GASREGCOVW",
+        "value": 4.305,
+        "yoy": 42.0792,
+        "date": "2026-05-01"
+      }
+    },
+    "borrowing_pressure": {
+      "fed_funds_rate": {
+        "series_id": "FEDFUNDS",
+        "value": 3.64,
+        "yoy": -15.9353,
+        "date": "2026-04-01"
+      },
+      "credit_card_rate": {
+        "series_id": "TERMCBCCALLNS",
+        "value": 21.0,
+        "yoy": -1.7314,
+        "date": "2026-02-01"
+      },
+      "mortgage_rate": {
+        "series_id": "MORTGAGE30US",
+        "value": 6.37,
+        "yoy": -7.5472,
+        "date": "2026-05-01"
+      }
+    },
+    "wage_strength": {
+      "avg_hourly_earn": {
+        "series_id": "CES0500000003",
+        "value": 37.41,
+        "yoy": 3.5714,
+        "date": "2026-04-01"
+      },
+      "real_hourly_earn": {
+        "series_id": "CES0500000011",
+        "value": 1283.16,
+        "yoy": 3.5709,
+        "date": "2026-04-01"
+      },
+      "cpi_inflation": {
+        "series_id": "CPIAUCSL",
+        "value": 330.293,
+        "yoy": 3.286,
+        "date": "2026-03-01"
+      }
+    },
+    "consumer_sentiment": {
+      "umich_sentiment": {
+        "series_id": "UMCSENT",
+        "value": 53.3,
+        "yoy": -6.4912,
+        "date": "2026-03-01"
+      }
+    }
+  },
+  "student_cost_pressure": {
+    "current": 50.039,
+    "prediction_3_months_ahead": 50.039,
+    "prediction_date": "2026-06-01",
+    "best_model": "naive_current_pressure"
+  }
+}
