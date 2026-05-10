@@ -74,6 +74,11 @@ type ArtifactModel = {
   status: string;
   prediction?: number;
   metrics?: ModelMetric;
+  validation_predictions?: Array<{
+    date: string;
+    actual: number;
+    prediction: number;
+  }>;
   model_class?: string;
   feature_names?: string[];
   reason?: string;
@@ -164,6 +169,14 @@ const artifactDescriptions: Record<string, string> = {
     'Fast gradient-boosting model used as an alternate nonlinear forecast.',
   mlp_saved:
     'Neural network model that can learn curved relationships, but is less transparent.',
+};
+
+const modelLineColors: Record<string, string> = {
+  actual: '#22313a',
+  multiple_linear_regression: '#2f6f9f',
+  xgboost_saved: '#ff6b00',
+  lightgbm_saved: '#13b956',
+  mlp_saved: '#8b5cf6',
 };
 
 const macroWeights: Record<string, number> = {
@@ -735,11 +748,11 @@ function ModelHub({ data }: { data: LoadedData }) {
   const models: ArtifactModel[] = data.artifacts.models ?? [];
   const [selected, setSelected] = useState(models[0]?.key ?? '');
   const selectedModel = models.find((model) => model.key === selected) ?? models[0];
-
   const comparison = models
     .filter((model) => model.metrics)
     .map((model) => ({
       name: model.label,
+      mae: model.metrics?.mae,
       rmse: model.metrics?.rmse,
       r2: model.metrics?.r2,
     }));
@@ -815,8 +828,9 @@ function ModelHub({ data }: { data: LoadedData }) {
         <div className="panel">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Accuracy</p>
-              <h2>RMSE by model</h2>
+              <p className="eyebrow">Error comparison</p>
+              <h2>MAE and RMSE by model</h2>
+              <p>Lower bars mean fewer forecast misses. RMSE penalizes larger misses more strongly.</p>
             </div>
           </div>
           <div className="chart">
@@ -825,8 +839,9 @@ function ModelHub({ data }: { data: LoadedData }) {
                 <CartesianGrid strokeDasharray="3 3" stroke="#dde5ea" />
                 <XAxis dataKey="name" interval={0} angle={-18} textAnchor="end" height={70} />
                 <YAxis />
-                <Tooltip />
-                <Bar dataKey="rmse" fill="#88a8bd" radius={[8, 8, 0, 0]} />
+                <Tooltip formatter={(value, name) => [fmt(Number(value), 2), String(name).toUpperCase()]} />
+                <Bar dataKey="mae" fill="#88a8bd" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="rmse" fill="#ffb25b" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -835,20 +850,21 @@ function ModelHub({ data }: { data: LoadedData }) {
         <div className="panel">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Model library</p>
-              <h2>Available forecasting models</h2>
+              <p className="eyebrow">Fit quality</p>
+              <h2>R² by model</h2>
+              <p>Higher is better. R² shows how much variation in future health the model explains.</p>
             </div>
           </div>
-          <div className="artifact-list">
-            {(data.artifacts.models as ArtifactModel[]).map((model) => (
-              <div className="artifact-row" key={model.key}>
-                <div>
-                  <strong>{model.label}</strong>
-                  <span>{artifactDescriptions[model.key] ?? model.reason ?? model.status}</span>
-                </div>
-                <b>{model.status === 'available' ? fmt(model.prediction) : model.status}</b>
-              </div>
-            ))}
+          <div className="chart">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={comparison}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#dde5ea" />
+                <XAxis dataKey="name" interval={0} angle={-18} textAnchor="end" height={70} />
+                <YAxis domain={[0, 1]} />
+                <Tooltip formatter={(value) => [fmt(Number(value), 3), 'R²']} />
+                <Bar dataKey="r2" fill="#7dcfb6" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </section>

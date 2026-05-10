@@ -177,6 +177,20 @@ def _predict_frame(model: Any, frame: pd.DataFrame, feature_names: list[str], sc
     return np.clip(np.ravel(prediction).astype(float), 0, 100)
 
 
+def _validation_predictions(test_frame: pd.DataFrame, predictions: np.ndarray) -> list[dict[str, Any]]:
+    rows = []
+    for date_index, actual, predicted in zip(test_frame.index, test_frame["target"], predictions):
+        target_date = pd.Timestamp(date_index) + pd.DateOffset(months=HORIZON_MONTHS)
+        rows.append(
+            {
+                "date": str(target_date.date()),
+                "actual": round(float(actual), 4),
+                "prediction": round(float(predicted), 4),
+            }
+        )
+    return rows
+
+
 def _sensitivity(model: Any, base_values: pd.Series, feature_names: list[str], scaler: Any | None = None) -> dict[str, Any]:
     sensitivity: dict[str, Any] = {}
 
@@ -275,6 +289,7 @@ def evaluate_model_artifacts(scores: pd.DataFrame) -> dict[str, Any]:
             if not test_frame.empty:
                 predictions = _predict_frame(model, test_frame, feature_names, scaler)
                 result["metrics"] = _regression_metrics(test_frame["target"].to_numpy(dtype=float), predictions)
+                result["validation_predictions"] = _validation_predictions(test_frame, predictions)
         except Exception as exc:
             result.update({"status": "unavailable", "reason": str(exc)})
 

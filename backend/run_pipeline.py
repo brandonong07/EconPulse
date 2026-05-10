@@ -61,6 +61,7 @@ def model_results_from_artifacts(base_results: dict, model_artifacts: dict) -> d
                 "status": model.get("status"),
                 "metrics": model.get("metrics"),
                 "prediction": model.get("prediction"),
+                "validation_predictions": model.get("validation_predictions"),
                 "feature_count": model.get("feature_count"),
                 "model_class": model.get("model_class"),
                 "reason": model.get("reason"),

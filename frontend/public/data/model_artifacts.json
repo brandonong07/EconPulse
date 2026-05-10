@@ -291,7 +291,239 @@
         "mae": 2.7163,
         "rmse": 3.2899,
         "r2": 0.8706
-      }
+      },
+      "validation_predictions": [
+        {
+          "date": "2022-06-01",
+          "actual": 20.0445,
+          "prediction": 27.3831
+        },
+        {
+          "date": "2022-07-01",
+          "actual": 20.9906,
+          "prediction": 27.9703
+        },
+        {
+          "date": "2022-08-01",
+          "actual": 21.0396,
+          "prediction": 25.4775
+        },
+        {
+          "date": "2022-09-01",
+          "actual": 19.0677,
+          "prediction": 23.0885
+        },
+        {
+          "date": "2022-10-01",
+          "actual": 19.99,
+          "prediction": 23.6875
+        },
+        {
+          "date": "2022-11-01",
+          "actual": 19.483,
+          "prediction": 22.51
+        },
+        {
+          "date": "2022-12-01",
+          "actual": 21.7616,
+          "prediction": 21.944
+        },
+        {
+          "date": "2023-01-01",
+          "actual": 24.9776,
+          "prediction": 23.328
+        },
+        {
+          "date": "2023-02-01",
+          "actual": 22.7665,
+          "prediction": 23.7481
+        },
+        {
+          "date": "2023-03-01",
+          "actual": 22.7097,
+          "prediction": 25.7755
+        },
+        {
+          "date": "2023-04-01",
+          "actual": 24.915,
+          "prediction": 27.79
+        },
+        {
+          "date": "2023-05-01",
+          "actual": 24.6166,
+          "prediction": 28.6248
+        },
+        {
+          "date": "2023-06-01",
+          "actual": 30.7363,
+          "prediction": 30.0099
+        },
+        {
+          "date": "2023-07-01",
+          "actual": 37.011,
+          "prediction": 31.4927
+        },
+        {
+          "date": "2023-08-01",
+          "actual": 34.335,
+          "prediction": 32.4689
+        },
+        {
+          "date": "2023-09-01",
+          "actual": 37.173,
+          "prediction": 36.9906
+        },
+        {
+          "date": "2023-10-01",
+          "actual": 34.9542,
+          "prediction": 38.7036
+        },
+        {
+          "date": "2023-11-01",
+          "actual": 35.6846,
+          "prediction": 39.0744
+        },
+        {
+          "date": "2023-12-01",
+          "actual": 40.8423,
+          "prediction": 39.8065
+        },
+        {
+          "date": "2024-01-01",
+          "actual": 46.0309,
+          "prediction": 39.47
+        },
+        {
+          "date": "2024-02-01",
+          "actual": 46.2218,
+          "prediction": 40.1824
+        },
+        {
+          "date": "2024-03-01",
+          "actual": 46.8203,
+          "prediction": 41.7538
+        },
+        {
+          "date": "2024-04-01",
+          "actual": 45.4564,
+          "prediction": 43.2711
+        },
+        {
+          "date": "2024-05-01",
+          "actual": 41.5585,
+          "prediction": 43.4738
+        },
+        {
+          "date": "2024-06-01",
+          "actual": 40.9261,
+          "prediction": 43.4086
+        },
+        {
+          "date": "2024-07-01",
+          "actual": 39.7962,
+          "prediction": 42.7006
+        },
+        {
+          "date": "2024-08-01",
+          "actual": 44.416,
+          "prediction": 42.7212
+        },
+        {
+          "date": "2024-09-01",
+          "actual": 45.5626,
+          "prediction": 42.6117
+        },
+        {
+          "date": "2024-10-01",
+          "actual": 45.7061,
+          "prediction": 42.1604
+        },
+        {
+          "date": "2024-11-01",
+          "actual": 46.1572,
+          "prediction": 43.4007
+        },
+        {
+          "date": "2024-12-01",
+          "actual": 46.5254,
+          "prediction": 43.6792
+        },
+        {
+          "date": "2025-01-01",
+          "actual": 46.0073,
+          "prediction": 43.7488
+        },
+        {
+          "date": "2025-02-01",
+          "actual": 43.2787,
+          "prediction": 43.7367
+        },
+        {
+          "date": "2025-03-01",
+          "actual": 40.4506,
+          "prediction": 43.7895
+        },
+        {
+          "date": "2025-04-01",
+          "actual": 38.6593,
+          "prediction": 43.1503
+        },
+        {
+          "date": "2025-05-01",
+          "actual": 38.2279,
+          "prediction": 42.3405
+        },
+        {
+          "date": "2025-06-01",
+          "actual": 41.6413,
+          "prediction": 42.1009
+        },
+        {
+          "date": "2025-07-01",
+          "actual": 42.3303,
+          "prediction": 41.8923
+        },
+        {
+          "date": "2025-08-01",
+          "actual": 40.252,
+          "prediction": 41.3458
+        },
+        {
+          "date": "2025-09-01",
+          "actual": 39.1782,
+          "prediction": 41.693
+        },
+        {
+          "date": "2025-10-01",
+          "actual": 39.7955,
+          "prediction": 41.7229
+        },
+        {
+          "date": "2025-11-01",
+          "actual": 38.8425,
+          "prediction": 40.228
+        },
+        {
+          "date": "2025-12-01",
+          "actual": 38.8825,
+          "prediction": 40.0333
+        },
+        {
+          "date": "2026-01-01",
+          "actual": 41.6014,
+          "prediction": 41.4031
+        },
+        {
+          "date": "2026-02-01",
+          "actual": 41.3536,
+          "prediction": 41.5887
+        },
+        {
+          "date": "2026-03-01",
+          "actual": 39.7404,
+          "prediction": 40.948
+        }
+      ]
     },
     {
       "key": "xgboost_saved",
@@ -562,7 +794,239 @@
         "mae": 2.0586,
         "rmse": 2.5096,
         "r2": 0.9247
-      }
+      },
+      "validation_predictions": [
+        {
+          "date": "2022-06-01",
+          "actual": 20.0445,
+          "prediction": 22.0004
+        },
+        {
+          "date": "2022-07-01",
+          "actual": 20.9906,
+          "prediction": 23.4949
+        },
+        {
+          "date": "2022-08-01",
+          "actual": 21.0396,
+          "prediction": 22.0004
+        },
+        {
+          "date": "2022-09-01",
+          "actual": 19.0677,
+          "prediction": 22.0004
+        },
+        {
+          "date": "2022-10-01",
+          "actual": 19.99,
+          "prediction": 22.0004
+        },
+        {
+          "date": "2022-11-01",
+          "actual": 19.483,
+          "prediction": 22.0004
+        },
+        {
+          "date": "2022-12-01",
+          "actual": 21.7616,
+          "prediction": 22.6687
+        },
+        {
+          "date": "2023-01-01",
+          "actual": 24.9776,
+          "prediction": 22.9717
+        },
+        {
+          "date": "2023-02-01",
+          "actual": 22.7665,
+          "prediction": 22.6687
+        },
+        {
+          "date": "2023-03-01",
+          "actual": 22.7097,
+          "prediction": 24.1822
+        },
+        {
+          "date": "2023-04-01",
+          "actual": 24.915,
+          "prediction": 25.1138
+        },
+        {
+          "date": "2023-05-01",
+          "actual": 24.6166,
+          "prediction": 28.1104
+        },
+        {
+          "date": "2023-06-01",
+          "actual": 30.7363,
+          "prediction": 30.861
+        },
+        {
+          "date": "2023-07-01",
+          "actual": 37.011,
+          "prediction": 34.9966
+        },
+        {
+          "date": "2023-08-01",
+          "actual": 34.335,
+          "prediction": 34.1704
+        },
+        {
+          "date": "2023-09-01",
+          "actual": 37.173,
+          "prediction": 36.6243
+        },
+        {
+          "date": "2023-10-01",
+          "actual": 34.9542,
+          "prediction": 38.5524
+        },
+        {
+          "date": "2023-11-01",
+          "actual": 35.6846,
+          "prediction": 39.0918
+        },
+        {
+          "date": "2023-12-01",
+          "actual": 40.8423,
+          "prediction": 39.8425
+        },
+        {
+          "date": "2024-01-01",
+          "actual": 46.0309,
+          "prediction": 42.0129
+        },
+        {
+          "date": "2024-02-01",
+          "actual": 46.2218,
+          "prediction": 42.0129
+        },
+        {
+          "date": "2024-03-01",
+          "actual": 46.8203,
+          "prediction": 41.9607
+        },
+        {
+          "date": "2024-04-01",
+          "actual": 45.4564,
+          "prediction": 42.2381
+        },
+        {
+          "date": "2024-05-01",
+          "actual": 41.5585,
+          "prediction": 41.9821
+        },
+        {
+          "date": "2024-06-01",
+          "actual": 40.9261,
+          "prediction": 42.2943
+        },
+        {
+          "date": "2024-07-01",
+          "actual": 39.7962,
+          "prediction": 45.5674
+        },
+        {
+          "date": "2024-08-01",
+          "actual": 44.416,
+          "prediction": 43.7666
+        },
+        {
+          "date": "2024-09-01",
+          "actual": 45.5626,
+          "prediction": 43.7666
+        },
+        {
+          "date": "2024-10-01",
+          "actual": 45.7061,
+          "prediction": 43.2263
+        },
+        {
+          "date": "2024-11-01",
+          "actual": 46.1572,
+          "prediction": 43.8886
+        },
+        {
+          "date": "2024-12-01",
+          "actual": 46.5254,
+          "prediction": 42.9279
+        },
+        {
+          "date": "2025-01-01",
+          "actual": 46.0073,
+          "prediction": 43.8886
+        },
+        {
+          "date": "2025-02-01",
+          "actual": 43.2787,
+          "prediction": 42.9279
+        },
+        {
+          "date": "2025-03-01",
+          "actual": 40.4506,
+          "prediction": 44.0026
+        },
+        {
+          "date": "2025-04-01",
+          "actual": 38.6593,
+          "prediction": 42.9279
+        },
+        {
+          "date": "2025-05-01",
+          "actual": 38.2279,
+          "prediction": 42.0199
+        },
+        {
+          "date": "2025-06-01",
+          "actual": 41.6413,
+          "prediction": 41.4967
+        },
+        {
+          "date": "2025-07-01",
+          "actual": 42.3303,
+          "prediction": 41.4967
+        },
+        {
+          "date": "2025-08-01",
+          "actual": 40.252,
+          "prediction": 41.4967
+        },
+        {
+          "date": "2025-09-01",
+          "actual": 39.1782,
+          "prediction": 41.4967
+        },
+        {
+          "date": "2025-10-01",
+          "actual": 39.7955,
+          "prediction": 42.0199
+        },
+        {
+          "date": "2025-11-01",
+          "actual": 38.8425,
+          "prediction": 41.4967
+        },
+        {
+          "date": "2025-12-01",
+          "actual": 38.8825,
+          "prediction": 41.4967
+        },
+        {
+          "date": "2026-01-01",
+          "actual": 41.6014,
+          "prediction": 41.4967
+        },
+        {
+          "date": "2026-02-01",
+          "actual": 41.3536,
+          "prediction": 41.4967
+        },
+        {
+          "date": "2026-03-01",
+          "actual": 39.7404,
+          "prediction": 41.4967
+        }
+      ]
     },
     {
       "key": "lightgbm_saved",
@@ -833,7 +1297,239 @@
         "mae": 2.0811,
         "rmse": 2.4112,
         "r2": 0.9305
-      }
+      },
+      "validation_predictions": [
+        {
+          "date": "2022-06-01",
+          "actual": 20.0445,
+          "prediction": 22.3398
+        },
+        {
+          "date": "2022-07-01",
+          "actual": 20.9906,
+          "prediction": 22.9963
+        },
+        {
+          "date": "2022-08-01",
+          "actual": 21.0396,
+          "prediction": 21.2441
+        },
+        {
+          "date": "2022-09-01",
+          "actual": 19.0677,
+          "prediction": 21.1482
+        },
+        {
+          "date": "2022-10-01",
+          "actual": 19.99,
+          "prediction": 21.1494
+        },
+        {
+          "date": "2022-11-01",
+          "actual": 19.483,
+          "prediction": 22.2226
+        },
+        {
+          "date": "2022-12-01",
+          "actual": 21.7616,
+          "prediction": 22.0458
+        },
+        {
+          "date": "2023-01-01",
+          "actual": 24.9776,
+          "prediction": 22.9387
+        },
+        {
+          "date": "2023-02-01",
+          "actual": 22.7665,
+          "prediction": 23.8313
+        },
+        {
+          "date": "2023-03-01",
+          "actual": 22.7097,
+          "prediction": 25.8742
+        },
+        {
+          "date": "2023-04-01",
+          "actual": 24.915,
+          "prediction": 27.1639
+        },
+        {
+          "date": "2023-05-01",
+          "actual": 24.6166,
+          "prediction": 29.0176
+        },
+        {
+          "date": "2023-06-01",
+          "actual": 30.7363,
+          "prediction": 31.7128
+        },
+        {
+          "date": "2023-07-01",
+          "actual": 37.011,
+          "prediction": 32.4617
+        },
+        {
+          "date": "2023-08-01",
+          "actual": 34.335,
+          "prediction": 35.6525
+        },
+        {
+          "date": "2023-09-01",
+          "actual": 37.173,
+          "prediction": 37.5349
+        },
+        {
+          "date": "2023-10-01",
+          "actual": 34.9542,
+          "prediction": 38.9549
+        },
+        {
+          "date": "2023-11-01",
+          "actual": 35.6846,
+          "prediction": 38.858
+        },
+        {
+          "date": "2023-12-01",
+          "actual": 40.8423,
+          "prediction": 39.9582
+        },
+        {
+          "date": "2024-01-01",
+          "actual": 46.0309,
+          "prediction": 42.2832
+        },
+        {
+          "date": "2024-02-01",
+          "actual": 46.2218,
+          "prediction": 42.1823
+        },
+        {
+          "date": "2024-03-01",
+          "actual": 46.8203,
+          "prediction": 42.9137
+        },
+        {
+          "date": "2024-04-01",
+          "actual": 45.4564,
+          "prediction": 43.4036
+        },
+        {
+          "date": "2024-05-01",
+          "actual": 41.5585,
+          "prediction": 42.7312
+        },
+        {
+          "date": "2024-06-01",
+          "actual": 40.9261,
+          "prediction": 43.1054
+        },
+        {
+          "date": "2024-07-01",
+          "actual": 39.7962,
+          "prediction": 42.8834
+        },
+        {
+          "date": "2024-08-01",
+          "actual": 44.416,
+          "prediction": 43.1378
+        },
+        {
+          "date": "2024-09-01",
+          "actual": 45.5626,
+          "prediction": 43.4541
+        },
+        {
+          "date": "2024-10-01",
+          "actual": 45.7061,
+          "prediction": 43.2929
+        },
+        {
+          "date": "2024-11-01",
+          "actual": 46.1572,
+          "prediction": 43.5274
+        },
+        {
+          "date": "2024-12-01",
+          "actual": 46.5254,
+          "prediction": 42.9205
+        },
+        {
+          "date": "2025-01-01",
+          "actual": 46.0073,
+          "prediction": 43.4064
+        },
+        {
+          "date": "2025-02-01",
+          "actual": 43.2787,
+          "prediction": 42.7256
+        },
+        {
+          "date": "2025-03-01",
+          "actual": 40.4506,
+          "prediction": 42.6485
+        },
+        {
+          "date": "2025-04-01",
+          "actual": 38.6593,
+          "prediction": 42.3981
+        },
+        {
+          "date": "2025-05-01",
+          "actual": 38.2279,
+          "prediction": 41.7367
+        },
+        {
+          "date": "2025-06-01",
+          "actual": 41.6413,
+          "prediction": 41.1621
+        },
+        {
+          "date": "2025-07-01",
+          "actual": 42.3303,
+          "prediction": 41.3314
+        },
+        {
+          "date": "2025-08-01",
+          "actual": 40.252,
+          "prediction": 41.1137
+        },
+        {
+          "date": "2025-09-01",
+          "actual": 39.1782,
+          "prediction": 41.1922
+        },
+        {
+          "date": "2025-10-01",
+          "actual": 39.7955,
+          "prediction": 41.3053
+        },
+        {
+          "date": "2025-11-01",
+          "actual": 38.8425,
+          "prediction": 40.981
+        },
+        {
+          "date": "2025-12-01",
+          "actual": 38.8825,
+          "prediction": 40.9098
+        },
+        {
+          "date": "2026-01-01",
+          "actual": 41.6014,
+          "prediction": 41.1408
+        },
+        {
+          "date": "2026-02-01",
+          "actual": 41.3536,
+          "prediction": 41.3916
+        },
+        {
+          "date": "2026-03-01",
+          "actual": 39.7404,
+          "prediction": 41.1719
+        }
+      ]
     },
     {
       "key": "mlp_saved",
@@ -1104,7 +1800,239 @@
         "mae": 2.3841,
         "rmse": 2.8449,
         "r2": 0.9032
-      }
+      },
+      "validation_predictions": [
+        {
+          "date": "2022-06-01",
+          "actual": 20.0445,
+          "prediction": 24.5505
+        },
+        {
+          "date": "2022-07-01",
+          "actual": 20.9906,
+          "prediction": 23.3511
+        },
+        {
+          "date": "2022-08-01",
+          "actual": 21.0396,
+          "prediction": 22.2068
+        },
+        {
+          "date": "2022-09-01",
+          "actual": 19.0677,
+          "prediction": 22.2814
+        },
+        {
+          "date": "2022-10-01",
+          "actual": 19.99,
+          "prediction": 21.5779
+        },
+        {
+          "date": "2022-11-01",
+          "actual": 19.483,
+          "prediction": 19.3148
+        },
+        {
+          "date": "2022-12-01",
+          "actual": 21.7616,
+          "prediction": 21.3476
+        },
+        {
+          "date": "2023-01-01",
+          "actual": 24.9776,
+          "prediction": 21.5862
+        },
+        {
+          "date": "2023-02-01",
+          "actual": 22.7665,
+          "prediction": 25.2017
+        },
+        {
+          "date": "2023-03-01",
+          "actual": 22.7097,
+          "prediction": 29.3256
+        },
+        {
+          "date": "2023-04-01",
+          "actual": 24.915,
+          "prediction": 26.3077
+        },
+        {
+          "date": "2023-05-01",
+          "actual": 24.6166,
+          "prediction": 28.5729
+        },
+        {
+          "date": "2023-06-01",
+          "actual": 30.7363,
+          "prediction": 31.5351
+        },
+        {
+          "date": "2023-07-01",
+          "actual": 37.011,
+          "prediction": 32.7897
+        },
+        {
+          "date": "2023-08-01",
+          "actual": 34.335,
+          "prediction": 35.2824
+        },
+        {
+          "date": "2023-09-01",
+          "actual": 37.173,
+          "prediction": 36.7157
+        },
+        {
+          "date": "2023-10-01",
+          "actual": 34.9542,
+          "prediction": 38.5685
+        },
+        {
+          "date": "2023-11-01",
+          "actual": 35.6846,
+          "prediction": 40.2719
+        },
+        {
+          "date": "2023-12-01",
+          "actual": 40.8423,
+          "prediction": 41.8519
+        },
+        {
+          "date": "2024-01-01",
+          "actual": 46.0309,
+          "prediction": 42.3296
+        },
+        {
+          "date": "2024-02-01",
+          "actual": 46.2218,
+          "prediction": 42.1749
+        },
+        {
+          "date": "2024-03-01",
+          "actual": 46.8203,
+          "prediction": 42.5323
+        },
+        {
+          "date": "2024-04-01",
+          "actual": 45.4564,
+          "prediction": 45.4008
+        },
+        {
+          "date": "2024-05-01",
+          "actual": 41.5585,
+          "prediction": 45.4317
+        },
+        {
+          "date": "2024-06-01",
+          "actual": 40.9261,
+          "prediction": 45.1823
+        },
+        {
+          "date": "2024-07-01",
+          "actual": 39.7962,
+          "prediction": 44.3195
+        },
+        {
+          "date": "2024-08-01",
+          "actual": 44.416,
+          "prediction": 43.2006
+        },
+        {
+          "date": "2024-09-01",
+          "actual": 45.5626,
+          "prediction": 42.6407
+        },
+        {
+          "date": "2024-10-01",
+          "actual": 45.7061,
+          "prediction": 43.2826
+        },
+        {
+          "date": "2024-11-01",
+          "actual": 46.1572,
+          "prediction": 43.6078
+        },
+        {
+          "date": "2024-12-01",
+          "actual": 46.5254,
+          "prediction": 43.0838
+        },
+        {
+          "date": "2025-01-01",
+          "actual": 46.0073,
+          "prediction": 43.2296
+        },
+        {
+          "date": "2025-02-01",
+          "actual": 43.2787,
+          "prediction": 42.4881
+        },
+        {
+          "date": "2025-03-01",
+          "actual": 40.4506,
+          "prediction": 42.9154
+        },
+        {
+          "date": "2025-04-01",
+          "actual": 38.6593,
+          "prediction": 43.0388
+        },
+        {
+          "date": "2025-05-01",
+          "actual": 38.2279,
+          "prediction": 41.4449
+        },
+        {
+          "date": "2025-06-01",
+          "actual": 41.6413,
+          "prediction": 41.0592
+        },
+        {
+          "date": "2025-07-01",
+          "actual": 42.3303,
+          "prediction": 41.0355
+        },
+        {
+          "date": "2025-08-01",
+          "actual": 40.252,
+          "prediction": 41.8325
+        },
+        {
+          "date": "2025-09-01",
+          "actual": 39.1782,
+          "prediction": 41.357
+        },
+        {
+          "date": "2025-10-01",
+          "actual": 39.7955,
+          "prediction": 39.7739
+        },
+        {
+          "date": "2025-11-01",
+          "actual": 38.8425,
+          "prediction": 39.2801
+        },
+        {
+          "date": "2025-12-01",
+          "actual": 38.8825,
+          "prediction": 40.6933
+        },
+        {
+          "date": "2026-01-01",
+          "actual": 41.6014,
+          "prediction": 40.4369
+        },
+        {
+          "date": "2026-02-01",
+          "actual": 41.3536,
+          "prediction": 40.2657
+        },
+        {
+          "date": "2026-03-01",
+          "actual": 39.7404,
+          "prediction": 41.4798
+        }
+      ]
     }
   ]
 }
