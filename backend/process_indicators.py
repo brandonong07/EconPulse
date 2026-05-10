@@ -325,6 +325,17 @@ def build_dashboard_metrics(
         "student_cost_pressure_change_1m": model_results.get("student_cost_pressure_change_1m"),
         "student_cost_pressure_change_3m": model_results.get("student_cost_pressure_change_3m"),
     }
+    model_predictions = [
+        {
+            "key": model.get("model"),
+            "label": model.get("label") or model.get("model"),
+            "prediction_3_months_ahead": model.get("prediction"),
+            "metrics": model.get("metrics"),
+            "status": model.get("status"),
+        }
+        for model in model_results.get("models", [])
+        if model.get("prediction") is not None
+    ]
 
     return {
         "as_of": as_of,
@@ -341,12 +352,21 @@ def build_dashboard_metrics(
             if key != "overall_health"
         },
         "latest_metrics": latest,
-        "student_cost_pressure": {
-            "current": model_results.get("latest_student_cost_pressure"),
+        "overall_health_prediction": {
+            "current": overall_health,
             "prediction_3_months_ahead": model_results.get("best_prediction"),
             "prediction_date": model_results.get("prediction_date"),
             "prediction_label": "3-month forecast",
             "prediction_note": "Forecast target only; this is not observed future FRED data.",
             "best_model": model_results.get("best_model"),
+            "models": model_predictions,
+        },
+        "student_cost_pressure": {
+            "current": model_results.get("latest_student_cost_pressure"),
+            "prediction_3_months_ahead": None,
+            "prediction_date": None,
+            "prediction_label": "3-month forecast",
+            "prediction_note": "Current pressure is shown for context; the model target is overall economic health.",
+            "best_model": None,
         },
     }

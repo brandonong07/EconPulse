@@ -44,6 +44,12 @@ type ScoreRow = {
   consumer_sentiment: number | null;
 };
 
+type KpiSparkPoint = {
+  time: number;
+  value: number | null;
+  forecast?: boolean;
+};
+
 type ModelMetric = {
   mae: number;
   rmse: number;
@@ -67,6 +73,7 @@ type ArtifactModel = {
   label: string;
   status: string;
   prediction?: number;
+  metrics?: ModelMetric;
   model_class?: string;
   feature_names?: string[];
   reason?: string;
@@ -128,10 +135,6 @@ const sliderEffects: Record<string, string> = {
 };
 
 const modelDescriptions: Record<string, string> = {
-  naive_current_pressure:
-    'Current pressure baseline: carries today’s student cost pressure forward to the 3-month forecast. It is simple, but useful when more complex models do not validate better.',
-  naive_rolling_3_month:
-    'Baseline forecast: uses the recent 3-month average to smooth short-term noise.',
   linear_regression:
     'Autoregressive linear model: uses current, lagged, and rolling pressure history to forecast near-term economic stress.',
   ridge_regression:
@@ -141,16 +144,12 @@ const modelDescriptions: Record<string, string> = {
 };
 
 const modelDisplayNames: Record<string, string> = {
-  naive_current_pressure: 'Current Pressure Baseline',
-  naive_rolling_3_month: '3-Month Average Baseline',
   linear_regression: 'Linear Regression',
   ridge_regression: 'Ridge Regression',
   xgboost_regressor: 'XGBoost Regressor',
 };
 
 const modelShortDescriptions: Record<string, string> = {
-  naive_current_pressure: 'Carries today’s pressure into the forecast because it validated best.',
-  naive_rolling_3_month: 'Uses the recent 3-month average as the forecast.',
   linear_regression: 'Fits a straight-line relationship from recent macro history.',
   ridge_regression: 'Fits a regularized straight-line macro relationship.',
   xgboost_regressor: 'Uses nonlinear trees to test richer macro interactions.',
@@ -158,7 +157,7 @@ const modelShortDescriptions: Record<string, string> = {
 
 const artifactDescriptions: Record<string, string> = {
   multiple_linear_regression:
-    'Transparent model that connects the six category scores to the forecasted pressure score.',
+    'Transparent model that connects the six category scores to forecasted economic health.',
   xgboost_saved:
     'Tree-based model that captures nonlinear relationships between economic categories.',
   lightgbm_saved:
@@ -294,6 +293,14 @@ function trendLabel(change: number | null | undefined) {
   return `${change > 0 ? '+' : ''}${fmt(change)}`;
 }
 
+function pressureBand(score: number | null | undefined) {
+  if (score === null || score === undefined || Number.isNaN(score)) return { label: 'Unknown', tone: 'neutral' };
+  if (score < 25) return { label: 'Low pressure', tone: 'good' };
+  if (score < 50) return { label: 'Moderate pressure', tone: 'neutral' };
+  if (score < 75) return { label: 'Elevated pressure', tone: 'warning' };
+  return { label: 'High pressure', tone: 'danger' };
+}
+
 function scoreHue(value: number | null | undefined) {
   if (value === null || value === undefined || Number.isNaN(value)) return 205;
   return Math.round((clamp(value) / 100) * 125);
@@ -310,6 +317,55 @@ function latestChange(scores: ScoreRow[], key: keyof ScoreRow) {
     .map((row) => Number(row[key]));
   if (usable.length < 2) return 0;
   return usable[usable.length - 1] - usable[usable.length - 2];
+}
+
+function scoreValue(row: ScoreRow, key: keyof ScoreRow | 'student_cost_pressure') {
+  if (key === 'student_cost_pressure') {
+    if (
+      row.rent_pressure === null ||
+      row.inflation_pressure === null ||
+      row.borrowing_pressure === null ||
+      row.wage_strength === null
+    ) {
+      return null;
+    }
+    return calculateStudentCostPressure({
+      rent_pressure: row.rent_pressure,
+      inflation_pressure: row.inflation_pressure,
+      borrowing_pressure: row.borrowing_pressure,
+      wage_strength: row.wage_strength,
+    });
+  }
+  const value = row[key];
+  return typeof value === 'number' ? value : null;
+}
+
+function sparkData(scores: ScoreRow[], key: keyof ScoreRow | 'student_cost_pressure') {
+  return scores
+    .slice(-36)
+    .map((row) => ({
+      time: monthTimestamp(row.date),
+      value: scoreValue(row, key),
+    }))
+    .filter((row) => row.value !== null) as KpiSparkPoint[];
+}
+
+function sparkDomain(series: KpiSparkPoint[]): [number, number] {
+  const values = series.map((point) => point.value).filter((value): value is number => typeof value === 'number');
+  if (!values.length) return [0, 100];
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const padding = Math.max(3, (max - min) * 0.2);
+  return [Math.max(0, Math.floor(min - padding)), Math.min(100, Math.ceil(max + padding))];
+}
+
+function sparkTicks(series: KpiSparkPoint[]) {
+  if (series.length < 2) return [];
+  return [series[0].time, series[series.length - 1].time];
+}
+
+function healthForecastDescription(modelLabel: string | undefined, forecastDate: string | undefined, observed: number | null) {
+  return `${modelLabel ?? 'Selected model'} sees the economy at risk of struggling by ${forecastDate ?? 'the next horizon'}, with recession-like pressure starting to show. Latest observed health is ${fmt(observed)}.`;
 }
 
 function useData() {
@@ -362,20 +418,27 @@ function MetricCard({
   trend,
   icon,
   description,
+  series,
   inverse = false,
   statusLabel,
+  statusTone,
 }: {
   title: string;
   value: number | null | undefined;
   trend?: number | null;
   icon: JSX.Element;
   description: string;
+  series: KpiSparkPoint[];
   inverse?: boolean;
   statusLabel?: string | null;
+  statusTone?: string;
 }) {
-  const band = metricBand(value, inverse, statusLabel);
+  const band = statusLabel ? { label: statusLabel, tone: statusTone ?? scoreTone(value) } : metricBand(value, inverse);
   const tone = trendTone(trend, inverse);
   const TrendIcon = trend !== undefined && trend !== null && trend < 0 ? TrendingDown : TrendingUp;
+  const yDomain = sparkDomain(series);
+  const ticks = sparkTicks(series);
+  const barColorValue = inverse ? 100 - Number(value ?? 0) : Number(value ?? 0);
 
   return (
     <article className="metric-card">
@@ -392,7 +455,49 @@ function MetricCard({
         <small>/ 100</small>
       </div>
       <div className="metric-bar" aria-hidden="true">
-        <span style={{ width: `${clamp(Number(value ?? 0))}%`, background: scoreFill(value) }} />
+        <span style={{ width: `${clamp(Number(value ?? 0))}%`, background: scoreFill(barColorValue) }} />
+      </div>
+      <div className="metric-spark" aria-hidden="true">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={series} margin={{ top: 8, right: 4, bottom: 18, left: -8 }}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e6edf2" />
+            <XAxis
+              dataKey="time"
+              type="number"
+              scale="time"
+              domain={['dataMin', 'dataMax']}
+              ticks={ticks}
+              tickFormatter={formatYearTick}
+              tick={{ fontSize: 10, fill: '#7b8b96' }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              domain={yDomain}
+              ticks={yDomain}
+              tick={{ fontSize: 10, fill: '#7b8b96' }}
+              axisLine={false}
+              tickLine={false}
+              width={28}
+            />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke="#2f6f9f"
+              strokeWidth={2}
+              dot={(props) => {
+                const payload = props.payload as KpiSparkPoint;
+                if (!payload?.forecast) return <g />;
+                return <circle cx={props.cx} cy={props.cy} r={4} fill="#ff6b00" stroke="#ffffff" strokeWidth={2} />;
+              }}
+              activeDot={{ r: 4 }}
+            />
+            <Tooltip
+              formatter={(tooltipValue) => [fmt(Number(tooltipValue)), title]}
+              labelFormatter={(label) => formatMonthLabel(Number(label))}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
       <span className={`status-pill status-${band.tone}`}>{band.label}</span>
       <p>{description}</p>
@@ -402,6 +507,26 @@ function MetricCard({
 
 function Dashboard({ data }: { data: LoadedData }) {
   const { dashboard, scores } = data;
+  const dashboardModels: ArtifactModel[] =
+    dashboard.overall_health_prediction?.models?.map((model: any) => ({
+      key: model.key,
+      label: model.label,
+      status: model.status,
+      prediction: model.prediction_3_months_ahead,
+      metrics: model.metrics,
+    })) ?? data.artifacts.models ?? [];
+  const defaultModel =
+    dashboard.overall_health_prediction?.best_model ?? dashboardModels.find((model) => model.status === 'available')?.key ?? '';
+  const [selectedModelKey, setSelectedModelKey] = useState(defaultModel);
+  const selectedModel =
+    dashboardModels.find((model) => model.key === selectedModelKey) ??
+    dashboardModels.find((model) => model.status === 'available');
+  const modelHealthPrediction =
+    selectedModel?.prediction ?? dashboard.overall_health_prediction?.prediction_3_months_ahead ?? dashboard.overall_health;
+  const modelTrend =
+    modelHealthPrediction !== null && modelHealthPrediction !== undefined && dashboard.overall_health !== null
+      ? Number(modelHealthPrediction) - Number(dashboard.overall_health)
+      : dashboard.trends.overall_health_change_1m;
   const explanation = dashboard.score_explanation ?? {
     summary: 'Score explanation is unavailable for this run.',
     drivers: [],
@@ -435,11 +560,28 @@ function Dashboard({ data }: { data: LoadedData }) {
   const metricCards = [
     {
       title: 'Overall Economic Health',
-      value: dashboard.overall_health,
-      trend: dashboard.trends.overall_health_change_1m,
+      value: modelHealthPrediction,
+      trend: modelTrend,
       icon: <Activity />,
-      statusLabel: dashboard.macro_state.label,
-      description: explanation.outlook,
+      statusLabel: metricBand(modelHealthPrediction).label,
+      statusTone: scoreTone(modelHealthPrediction),
+      series: [
+        ...sparkData(scores, 'overall_health'),
+        ...(dashboard.overall_health_prediction?.prediction_date
+          ? [
+              {
+                time: monthTimestamp(dashboard.overall_health_prediction.prediction_date),
+                value: modelHealthPrediction,
+                forecast: true,
+              },
+            ]
+          : []),
+      ],
+      description: healthForecastDescription(
+        selectedModel?.label,
+        dashboard.overall_health_prediction?.prediction_date,
+        dashboard.overall_health,
+      ),
     },
     {
       title: 'Student Cost Pressure',
@@ -447,13 +589,17 @@ function Dashboard({ data }: { data: LoadedData }) {
       trend: dashboard.trends.student_cost_pressure_change_1m,
       icon: <DollarSign />,
       inverse: true,
-      description: 'Lower is better. Tracks rent, inflation, borrowing, and wage pressure on student budgets.',
+      statusLabel: pressureBand(dashboard.student_cost_pressure.current).label,
+      statusTone: pressureBand(dashboard.student_cost_pressure.current).tone,
+      series: sparkData(scores, 'student_cost_pressure'),
+      description: 'Lower is better. This is a cost-pressure index, so higher values mean student budgets are under more strain.',
     },
     {
       title: 'Rent Pressure',
       value: dashboard.category_scores.rent_pressure,
       trend: latestChange(scores, 'rent_pressure'),
       icon: <Home />,
+      series: sparkData(scores, 'rent_pressure'),
       description: 'Higher means housing costs are easier to absorb. Lower means rent and mortgage pressure is heavier.',
     },
     {
@@ -461,6 +607,7 @@ function Dashboard({ data }: { data: LoadedData }) {
       value: dashboard.category_scores.job_market_strength,
       trend: latestChange(scores, 'job_market_strength'),
       icon: <Briefcase />,
+      series: sparkData(scores, 'job_market_strength'),
       description: 'Higher means stronger hiring, lower unemployment, and better labor demand.',
     },
     {
@@ -468,6 +615,7 @@ function Dashboard({ data }: { data: LoadedData }) {
       value: dashboard.category_scores.inflation_pressure,
       trend: latestChange(scores, 'inflation_pressure'),
       icon: <ShoppingCart />,
+      series: sparkData(scores, 'inflation_pressure'),
       description: 'Higher means prices are more stable. Lower means inflation is weighing more on households.',
     },
     {
@@ -475,6 +623,7 @@ function Dashboard({ data }: { data: LoadedData }) {
       value: dashboard.category_scores.borrowing_pressure,
       trend: latestChange(scores, 'borrowing_pressure'),
       icon: <CreditCard />,
+      series: sparkData(scores, 'borrowing_pressure'),
       description: 'Higher means credit is less restrictive. Lower means rates and debt costs are harder to manage.',
     },
     {
@@ -482,6 +631,7 @@ function Dashboard({ data }: { data: LoadedData }) {
       value: dashboard.category_scores.wage_strength,
       trend: latestChange(scores, 'wage_strength'),
       icon: <Wallet />,
+      series: sparkData(scores, 'wage_strength'),
       description: 'Higher means wages are doing more to offset costs and support affordability.',
     },
     {
@@ -489,6 +639,7 @@ function Dashboard({ data }: { data: LoadedData }) {
       value: dashboard.category_scores.consumer_sentiment,
       trend: latestChange(scores, 'consumer_sentiment'),
       icon: <Smile />,
+      series: sparkData(scores, 'consumer_sentiment'),
       description: 'Higher means households feel more confident. Lower signals caution and financial stress.',
     },
   ];
@@ -511,6 +662,28 @@ function Dashboard({ data }: { data: LoadedData }) {
             Help students and everyday users quickly see whether the economy feels stable,
             strained, or improving, and understand which conditions are driving that signal.
           </p>
+        </div>
+      </section>
+
+      <section className="panel model-kpi-panel">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Dashboard model</p>
+            <h2>Pick the model driving the health KPI</h2>
+            <p>Only the overall economic health prediction changes by model. The other KPIs stay fixed to the latest observed scores.</p>
+          </div>
+          <Gauge />
+        </div>
+        <div className="model-selector">
+          {dashboardModels.map((model) => (
+            <button
+              key={model.key}
+              className={selectedModel?.key === model.key ? 'active' : ''}
+              onClick={() => setSelectedModelKey(model.key)}
+            >
+              {model.label}
+            </button>
+          ))}
         </div>
       </section>
 
@@ -559,14 +732,14 @@ function Dashboard({ data }: { data: LoadedData }) {
 }
 
 function ModelHub({ data }: { data: LoadedData }) {
-  const models: ModelResult[] = data.modelResults.models ?? [];
-  const [selected, setSelected] = useState(models[0]?.model ?? '');
-  const selectedModel = models.find((model) => model.model === selected) ?? models[0];
+  const models: ArtifactModel[] = data.artifacts.models ?? [];
+  const [selected, setSelected] = useState(models[0]?.key ?? '');
+  const selectedModel = models.find((model) => model.key === selected) ?? models[0];
 
   const comparison = models
     .filter((model) => model.metrics)
     .map((model) => ({
-      name: modelName(model.model),
+      name: model.label,
       rmse: model.metrics?.rmse,
       r2: model.metrics?.r2,
     }));
@@ -579,9 +752,8 @@ function ModelHub({ data }: { data: LoadedData }) {
             <p className="eyebrow">Model hub</p>
             <h2>Forecast model comparison</h2>
             <p>
-              These models forecast the near-term student cost pressure score, a future economic
-              stress signal derived from rent, inflation, borrowing, and wage conditions. Lower
-              predicted pressure is better.
+              These saved .pkl models forecast overall economic health three months ahead using
+              the six EconPulse category scores. Higher predicted health is better.
             </p>
           </div>
           <BrainCircuit />
@@ -590,11 +762,11 @@ function ModelHub({ data }: { data: LoadedData }) {
         <div className="model-selector">
           {models.map((model) => (
             <button
-              key={model.model}
-              className={selected === model.model ? 'active' : ''}
-              onClick={() => setSelected(model.model)}
+              key={model.key}
+              className={selected === model.key ? 'active' : ''}
+              onClick={() => setSelected(model.key)}
             >
-              {modelName(model.model)}
+              {model.label}
             </button>
           ))}
         </div>
@@ -603,12 +775,14 @@ function ModelHub({ data }: { data: LoadedData }) {
           <div className="model-detail">
             <div>
               <p className="eyebrow">Selected model</p>
-              <h3>{modelName(selectedModel.model)}</h3>
-              <p>{selectedModel.description ?? modelDescriptions[selectedModel.model] ?? selectedModel.backend}</p>
+              <h3>{selectedModel.label}</h3>
+              <p>
+                {artifactDescriptions[selectedModel.key] ?? selectedModel.reason ?? selectedModel.model_class}
+              </p>
             </div>
             <div className="metric-grid">
               <Card
-                title="Forecasted Pressure"
+                title="Forecasted Health"
                 value={fmt(selectedModel.prediction)}
                 detail="3-month forecast target, not observed data"
                 icon={<TrendingUp />}

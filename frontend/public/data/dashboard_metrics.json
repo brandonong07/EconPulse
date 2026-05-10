@@ -1,7 +1,7 @@
 {
   "as_of": "2026-03-01",
-  "data_refreshed_at": "2026-05-09",
-  "raw_data_source": "fred",
+  "data_refreshed_at": "2026-05-10",
+  "raw_data_source": "cache",
   "overall_health": 39.7404,
   "macro_state": {
     "key": "strained",
@@ -246,12 +246,66 @@
       }
     }
   },
-  "student_cost_pressure": {
-    "current": 50.039,
-    "prediction_3_months_ahead": 50.039,
+  "overall_health_prediction": {
+    "current": 39.7404,
+    "prediction_3_months_ahead": 42.094,
     "prediction_date": "2026-06-01",
     "prediction_label": "3-month forecast",
     "prediction_note": "Forecast target only; this is not observed future FRED data.",
-    "best_model": "naive_current_pressure"
+    "best_model": "lightgbm_saved",
+    "models": [
+      {
+        "key": "multiple_linear_regression",
+        "label": "Multiple Linear Regression",
+        "prediction_3_months_ahead": 41.7546,
+        "metrics": {
+          "mae": 2.7163,
+          "rmse": 3.2899,
+          "r2": 0.8706
+        },
+        "status": "available"
+      },
+      {
+        "key": "xgboost_saved",
+        "label": "XGBoost",
+        "prediction_3_months_ahead": 41.6021,
+        "metrics": {
+          "mae": 2.0586,
+          "rmse": 2.5096,
+          "r2": 0.9247
+        },
+        "status": "available"
+      },
+      {
+        "key": "lightgbm_saved",
+        "label": "LightGBM",
+        "prediction_3_months_ahead": 42.094,
+        "metrics": {
+          "mae": 2.0811,
+          "rmse": 2.4112,
+          "r2": 0.9305
+        },
+        "status": "available"
+      },
+      {
+        "key": "mlp_saved",
+        "label": "MLP Neural Network",
+        "prediction_3_months_ahead": 39.6823,
+        "metrics": {
+          "mae": 2.3841,
+          "rmse": 2.8449,
+          "r2": 0.9032
+        },
+        "status": "available"
+      }
+    ]
+  },
+  "student_cost_pressure": {
+    "current": 50.039,
+    "prediction_3_months_ahead": null,
+    "prediction_date": null,
+    "prediction_label": "3-month forecast",
+    "prediction_note": "Current pressure is shown for context; the model target is overall economic health.",
+    "best_model": null
   }
 }

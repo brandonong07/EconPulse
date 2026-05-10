@@ -260,7 +260,7 @@ nav button:hover,
 }
 
 .metric-card {
-  min-height: 330px;
+  min-height: 390px;
   padding: 28px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.94);
@@ -354,6 +354,15 @@ nav button:hover,
   height: 100%;
   border-radius: inherit;
   background: #a7cce8;
+}
+
+.metric-spark {
+  height: 112px;
+  margin-top: 16px;
+}
+
+.metric-spark .recharts-tooltip-wrapper {
+  outline: none;
 }
 
 .status-pill {
@@ -455,6 +464,14 @@ nav button:hover,
 
 .panel {
   padding: 22px;
+}
+
+.model-kpi-panel .section-head {
+  margin-bottom: 14px;
+}
+
+.model-kpi-panel p {
+  margin: 6px 0 0;
 }
 
 .section-head {

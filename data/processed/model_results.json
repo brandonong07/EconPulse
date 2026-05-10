@@ -1,8 +1,8 @@
 {
-  "target": "student_cost_pressure_3_months_ahead",
+  "target": "overall_health_3_months_ahead",
   "horizon_months": 3,
   "status": "trained",
-  "validation_strategy": "chronological_holdout_with_walk_forward_ridge_check",
+  "validation_strategy": "saved_model_file_holdout",
   "training_rows": 214,
   "test_rows": 43,
   "feature_columns": [
@@ -71,13 +71,15 @@
     "student_cost_pressure_roll_6",
     "student_cost_pressure_roll_12"
   ],
+  "latest_overall_health": 39.7404,
+  "overall_health_change_1m": -1.6132,
+  "overall_health_change_3m": 0.8579,
   "latest_student_cost_pressure": 50.039,
   "student_cost_pressure_change_1m": -0.1183,
   "student_cost_pressure_change_3m": -1.2834,
   "prediction_date": "2026-06-01",
-  "best_model": "naive_current_pressure",
-  "best_prediction": 50.039,
-  "beats_naive_current_pressure": false,
+  "best_model": "lightgbm_saved",
+  "best_prediction": 42.094,
   "walk_forward_validation": {
     "status": "evaluated",
     "model": "ridge_regression",
@@ -85,70 +87,77 @@
     "initial_train_rows": 60,
     "test_windows": 154,
     "metrics": {
-      "mae": 1.2839,
-      "rmse": 2.0466,
-      "r2": 0.9186
+      "mae": 4.0377,
+      "rmse": 6.9829,
+      "r2": 0.5643
     }
   },
   "xgboost_available": true,
   "models": [
     {
-      "model": "naive_current_pressure",
-      "backend": "baseline",
+      "model": "multiple_linear_regression",
+      "label": "Multiple Linear Regression",
+      "backend": "saved_pickle",
+      "file": "multiple_linear_regression_model.pkl",
+      "status": "available",
       "metrics": {
-        "mae": 1.5832,
-        "rmse": 1.9977,
-        "r2": 0.8844
+        "mae": 2.7163,
+        "rmse": 3.2899,
+        "r2": 0.8706
       },
-      "prediction": 50.039,
-      "description": "Predicts future pressure equals current pressure."
+      "prediction": 41.7546,
+      "feature_count": 6,
+      "model_class": "sklearn.linear_model._base.LinearRegression",
+      "reason": null
     },
     {
-      "model": "naive_rolling_3_month",
-      "backend": "baseline",
+      "model": "xgboost_saved",
+      "label": "XGBoost",
+      "backend": "saved_pickle",
+      "file": "xgboost_model.pkl",
+      "status": "available",
       "metrics": {
-        "mae": 2.1283,
-        "rmse": 2.5748,
-        "r2": 0.808
+        "mae": 2.0586,
+        "rmse": 2.5096,
+        "r2": 0.9247
       },
-      "prediction": 50.1422,
-      "description": "Predicts future pressure equals the recent 3-month average."
+      "prediction": 41.6021,
+      "feature_count": 6,
+      "model_class": "sklearn.ensemble._gb.GradientBoostingRegressor",
+      "reason": null
     },
     {
-      "model": "linear_regression",
-      "backend": "sklearn",
+      "model": "lightgbm_saved",
+      "label": "LightGBM",
+      "backend": "saved_pickle",
+      "file": "lightgbm_model.pkl",
+      "status": "available",
       "metrics": {
-        "mae": 2.2798,
-        "rmse": 2.6435,
-        "r2": 0.7976
+        "mae": 2.0811,
+        "rmse": 2.4112,
+        "r2": 0.9305
       },
-      "prediction": 47.9081,
-      "feature_set": "pressure_autoregressive",
-      "feature_count": 8
+      "prediction": 42.094,
+      "feature_count": 6,
+      "model_class": "sklearn.ensemble._forest.ExtraTreesRegressor",
+      "reason": null
     },
     {
-      "model": "ridge_regression",
-      "backend": "sklearn",
+      "model": "mlp_saved",
+      "label": "MLP Neural Network",
+      "backend": "saved_pickle",
+      "file": "mlp_model.pkl",
+      "status": "available",
       "metrics": {
-        "mae": 5.0474,
-        "rmse": 5.4799,
-        "r2": 0.1302
+        "mae": 2.3841,
+        "rmse": 2.8449,
+        "r2": 0.9032
       },
-      "prediction": 49.7916,
-      "feature_set": "macro_snapshot",
-      "feature_count": 8
-    },
-    {
-      "model": "xgboost_regressor",
-      "backend": "xgboost",
-      "metrics": {
-        "mae": 7.8443,
-        "rmse": 8.2741,
-        "r2": -0.9829
-      },
-      "prediction": 46.5867,
-      "feature_set": "all_lagged_macro_features",
-      "feature_count": 64
+      "prediction": 39.6823,
+      "feature_count": 6,
+      "model_class": "sklearn.pipeline.Pipeline",
+      "reason": null
     }
-  ]
+  ],
+  "source": "saved_model_files"
 }

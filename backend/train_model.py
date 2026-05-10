@@ -1,4 +1,4 @@
-"""Forecast Student Cost Pressure from processed EconPulse scores."""
+"""Forecast overall economic health from processed EconPulse scores."""
 
 from __future__ import annotations
 
@@ -81,7 +81,7 @@ def build_training_frame(scores: pd.DataFrame, horizon_months: int = MODEL_HORIZ
             feature_frame[f"{column}_roll_{window}"] = source.rolling(window).mean()
 
     feature_frame = feature_frame.ffill(limit=2)
-    target = frame["student_cost_pressure"].shift(-horizon_months).rename("target")
+    target = frame["overall_health"].shift(-horizon_months).rename("target")
     training = feature_frame.assign(target=target).dropna()
     return training, [column for column in training.columns if column != "target"]
 
@@ -156,8 +156,8 @@ def _fit_regularized_models(x_train: np.ndarray, y_train: np.ndarray) -> list[tu
 
 
 def _feature_subset(feature_columns: list[str], strategy: str) -> list[str]:
-    if strategy == "pressure_autoregressive":
-        return [column for column in feature_columns if column.startswith("student_cost_pressure")]
+    if strategy == "health_autoregressive":
+        return [column for column in feature_columns if column.startswith("overall_health")]
     if strategy == "macro_snapshot":
         return [column for column in feature_columns if "_lag_" not in column and "_roll_" not in column]
     return feature_columns
@@ -201,18 +201,18 @@ def _walk_forward_metrics(training: pd.DataFrame, feature_columns: list[str], mi
     }
 
 
-def _forecast_date(pressure: pd.Series, horizon_months: int) -> str | None:
-    valid_pressure = pressure.dropna()
-    if valid_pressure.empty:
+def _forecast_date(series: pd.Series, horizon_months: int) -> str | None:
+    valid_values = series.dropna()
+    if valid_values.empty:
         return None
-    return str((valid_pressure.index[-1] + pd.DateOffset(months=horizon_months)).date())
+    return str((valid_values.index[-1] + pd.DateOffset(months=horizon_months)).date())
 
 
 def train_models(scores: pd.DataFrame, horizon_months: int = MODEL_HORIZON_MONTHS) -> dict[str, Any]:
-    """Train baseline, regularized, and optional XGBoost forecasters."""
+    """Train regularized economic-health forecasters."""
     if scores.empty:
         return {
-            "target": "student_cost_pressure_3_months_ahead",
+            "target": f"overall_health_{horizon_months}_months_ahead",
             "horizon_months": horizon_months,
             "status": "skipped_empty_scores",
             "models": [],
@@ -225,11 +225,14 @@ def train_models(scores: pd.DataFrame, horizon_months: int = MODEL_HORIZON_MONTH
 
     if len(training) < MIN_TRAINING_ROWS or not feature_columns:
         return {
-            "target": "student_cost_pressure_3_months_ahead",
+            "target": f"overall_health_{horizon_months}_months_ahead",
             "horizon_months": horizon_months,
             "status": "skipped_not_enough_training_data",
             "training_rows": int(len(training)),
             "feature_columns": feature_columns,
+            "latest_overall_health": _latest_metric(working_scores, "overall_health"),
+            "overall_health_change_1m": _metric_change(working_scores, "overall_health", 1),
+            "overall_health_change_3m": _metric_change(working_scores, "overall_health", 3),
             "latest_student_cost_pressure": _latest_pressure(working_scores),
             "student_cost_pressure_change_1m": _pressure_change(working_scores, 1),
             "student_cost_pressure_change_3m": _pressure_change(working_scores, 3),
@@ -245,41 +248,11 @@ def train_models(scores: pd.DataFrame, horizon_months: int = MODEL_HORIZON_MONTH
         latest_features = training[feature_columns].tail(1)
 
     model_results: list[dict[str, Any]] = []
-    _, _, _, y_test = _train_test_arrays(training, feature_columns, split_index)
-
-    if "student_cost_pressure" in training.columns:
-        current_pressure_test = training["student_cost_pressure"].iloc[split_index:].to_numpy(dtype=float)
-        current_pressure_forecast = float(latest_features["student_cost_pressure"].iloc[-1])
-        model_results.append(
-            _model_result(
-                "naive_current_pressure",
-                "baseline",
-                y_test,
-                current_pressure_test,
-                current_pressure_forecast,
-                {"description": "Predicts future pressure equals current pressure."},
-            )
-        )
-
-    if "student_cost_pressure_roll_3" in training.columns:
-        rolling_pressure_test = training["student_cost_pressure_roll_3"].iloc[split_index:].to_numpy(dtype=float)
-        rolling_pressure_forecast = float(latest_features["student_cost_pressure_roll_3"].iloc[-1])
-        model_results.append(
-            _model_result(
-                "naive_rolling_3_month",
-                "baseline",
-                y_test,
-                rolling_pressure_test,
-                rolling_pressure_forecast,
-                {"description": "Predicts future pressure equals the recent 3-month average."},
-            )
-        )
-
-    pressure_features = _feature_subset(feature_columns, "pressure_autoregressive")
+    health_features = _feature_subset(feature_columns, "health_autoregressive")
     macro_features = _feature_subset(feature_columns, "macro_snapshot")
 
-    x_train, x_test, y_train, y_test = _train_test_arrays(training, pressure_features, split_index)
-    latest_x = latest_features[pressure_features].to_numpy(dtype=float)
+    x_train, x_test, y_train, y_test = _train_test_arrays(training, health_features, split_index)
+    latest_x = latest_features[health_features].to_numpy(dtype=float)
     linear_model, linear_backend = _fit_linear_regression(x_train, y_train)
     linear_predictions = linear_model.predict(x_test)
     linear_forecast = float(linear_model.predict(latest_x)[0])
@@ -290,7 +263,7 @@ def train_models(scores: pd.DataFrame, horizon_months: int = MODEL_HORIZON_MONTH
             y_test,
             linear_predictions,
             linear_forecast,
-            {"feature_set": "pressure_autoregressive", "feature_count": len(pressure_features)},
+            {"feature_set": "health_autoregressive", "feature_count": len(health_features)},
         )
     )
 
@@ -353,29 +326,48 @@ def train_models(scores: pd.DataFrame, horizon_months: int = MODEL_HORIZON_MONTH
 
     scored_models = [model for model in model_results if "metrics" in model]
     best = min(scored_models, key=lambda item: item["metrics"]["rmse"]) if scored_models else None
-    naive_current = next((model for model in scored_models if model["model"] == "naive_current_pressure"), None)
 
     return {
-        "target": f"student_cost_pressure_{horizon_months}_months_ahead",
+        "target": f"overall_health_{horizon_months}_months_ahead",
         "horizon_months": horizon_months,
         "status": "trained",
         "validation_strategy": "chronological_holdout_with_walk_forward_ridge_check",
         "training_rows": int(len(training)),
         "test_rows": int(len(y_test)),
         "feature_columns": feature_columns,
+        "latest_overall_health": _latest_metric(working_scores, "overall_health"),
+        "overall_health_change_1m": _metric_change(working_scores, "overall_health", 1),
+        "overall_health_change_3m": _metric_change(working_scores, "overall_health", 3),
         "latest_student_cost_pressure": _latest_pressure(working_scores),
         "student_cost_pressure_change_1m": _pressure_change(working_scores, 1),
         "student_cost_pressure_change_3m": _pressure_change(working_scores, 3),
-        "prediction_date": _forecast_date(working_scores["student_cost_pressure"], horizon_months),
+        "prediction_date": _forecast_date(working_scores["overall_health"], horizon_months),
         "best_model": best["model"] if best else None,
         "best_prediction": best["prediction"] if best else None,
-        "beats_naive_current_pressure": (
-            bool(best and naive_current and best["metrics"]["rmse"] < naive_current["metrics"]["rmse"])
-        ),
-        "walk_forward_validation": _walk_forward_metrics(training, pressure_features),
+        "walk_forward_validation": _walk_forward_metrics(training, health_features),
         "xgboost_available": xgboost_available,
         "models": model_results,
     }
+
+
+def _latest_metric(scores: pd.DataFrame, column: str) -> float | None:
+    metric = scores.get(column)
+    if metric is None:
+        return None
+    metric = pd.to_numeric(metric, errors="coerce").dropna()
+    if metric.empty:
+        return None
+    return round(float(metric.iloc[-1]), 4)
+
+
+def _metric_change(scores: pd.DataFrame, column: str, periods: int) -> float | None:
+    metric = scores.get(column)
+    if metric is None:
+        return None
+    metric = pd.to_numeric(metric, errors="coerce").dropna()
+    if len(metric) <= periods:
+        return None
+    return round(float(metric.iloc[-1] - metric.iloc[-1 - periods]), 4)
 
 
 def _latest_pressure(scores: pd.DataFrame) -> float | None:

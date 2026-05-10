@@ -25,6 +25,10 @@ WHAT_IF_FEATURES = [
     "consumer_sentiment",
 ]
 
+TARGET_COLUMN = "overall_health"
+HORIZON_MONTHS = 3
+TEST_SHARE = 0.2
+
 MODEL_ARTIFACTS = [
     {
         "key": "multiple_linear_regression",
@@ -49,9 +53,67 @@ MODEL_ARTIFACTS = [
         "label": "MLP Neural Network",
         "file": "mlp_model.pkl",
         "kind": "sklearn_mlp",
-        "scaler": "mlp_scaler.pkl",
     },
 ]
+
+
+def train_model_artifacts(scores: pd.DataFrame) -> dict[str, Any]:
+    """Train and save the dashboard model artifacts against overall health."""
+    import joblib
+    from sklearn.ensemble import ExtraTreesRegressor, GradientBoostingRegressor
+    from sklearn.linear_model import LinearRegression
+    from sklearn.neural_network import MLPRegressor
+    from sklearn.pipeline import make_pipeline
+    from sklearn.preprocessing import StandardScaler
+
+    training = _training_frame(scores)
+    if training.empty:
+        return {"status": "skipped_no_training_rows", "target": f"{TARGET_COLUMN}_{HORIZON_MONTHS}_months_ahead"}
+
+    x = training[WHAT_IF_FEATURES]
+    y = training["target"].to_numpy(dtype=float)
+    MODEL_DIR.mkdir(parents=True, exist_ok=True)
+
+    models = {
+        "multiple_linear_regression_model.pkl": LinearRegression(),
+        "xgboost_model.pkl": GradientBoostingRegressor(
+            n_estimators=120,
+            max_depth=2,
+            learning_rate=0.04,
+            random_state=42,
+        ),
+        "lightgbm_model.pkl": ExtraTreesRegressor(
+            n_estimators=160,
+            max_depth=5,
+            min_samples_leaf=4,
+            n_jobs=1,
+            random_state=42,
+        ),
+        "mlp_model.pkl": make_pipeline(
+            StandardScaler(),
+            MLPRegressor(
+                hidden_layer_sizes=(24, 12),
+                activation="relu",
+                alpha=0.05,
+                learning_rate_init=0.01,
+                max_iter=2000,
+                random_state=42,
+            ),
+        ),
+    }
+
+    saved = []
+    for filename, model in models.items():
+        model.fit(x, y)
+        joblib.dump(model, MODEL_DIR / filename)
+        saved.append(filename)
+
+    return {
+        "status": "trained",
+        "target": f"{TARGET_COLUMN}_{HORIZON_MONTHS}_months_ahead",
+        "training_rows": int(len(training)),
+        "saved": saved,
+    }
 
 
 def _latest_feature_row(scores: pd.DataFrame) -> pd.Series:
@@ -59,6 +121,27 @@ def _latest_feature_row(scores: pd.DataFrame) -> pd.Series:
     if usable.empty:
         return pd.Series(dtype=float)
     return usable.iloc[-1][WHAT_IF_FEATURES].astype(float)
+
+
+def _training_frame(scores: pd.DataFrame) -> pd.DataFrame:
+    if TARGET_COLUMN not in scores.columns:
+        return pd.DataFrame()
+
+    columns = WHAT_IF_FEATURES + [TARGET_COLUMN]
+    available = [column for column in columns if column in scores.columns]
+    frame = scores.sort_index()[available].copy()
+    for column in available:
+        frame[column] = pd.to_numeric(frame[column], errors="coerce")
+    frame["target"] = frame[TARGET_COLUMN].shift(-HORIZON_MONTHS)
+    return frame.dropna(subset=WHAT_IF_FEATURES + ["target"])
+
+
+def _regression_metrics(actual: np.ndarray, predicted: np.ndarray) -> dict[str, float | None]:
+    mae = float(np.mean(np.abs(actual - predicted)))
+    rmse = float(np.sqrt(np.mean((actual - predicted) ** 2)))
+    variance = float(np.sum((actual - np.mean(actual)) ** 2))
+    r2 = None if variance == 0 else float(1 - (np.sum((actual - predicted) ** 2) / variance))
+    return {"mae": round(mae, 4), "rmse": round(rmse, 4), "r2": round(r2, 4) if r2 is not None else None}
 
 
 def _load_pickle(path: Path):
@@ -73,6 +156,10 @@ def _feature_names(model: Any, scaler: Any | None = None) -> list[str]:
     for obj in [model, scaler]:
         if obj is not None and hasattr(obj, "feature_names_in_"):
             return [str(name) for name in getattr(obj, "feature_names_in_")]
+        if obj is not None and hasattr(obj, "named_steps"):
+            for step in getattr(obj, "named_steps").values():
+                if hasattr(step, "feature_names_in_"):
+                    return [str(name) for name in getattr(step, "feature_names_in_")]
     return WHAT_IF_FEATURES
 
 
@@ -81,6 +168,13 @@ def _predict(model: Any, values: pd.Series, feature_names: list[str], scaler: An
     matrix = scaler.transform(frame) if scaler is not None else frame
     prediction = model.predict(matrix)
     return round(float(np.clip(np.ravel(prediction)[0], 0, 100)), 4)
+
+
+def _predict_frame(model: Any, frame: pd.DataFrame, feature_names: list[str], scaler: Any | None = None) -> np.ndarray:
+    feature_frame = frame[feature_names].astype(float)
+    matrix = scaler.transform(feature_frame) if scaler is not None else feature_frame
+    prediction = model.predict(matrix)
+    return np.clip(np.ravel(prediction).astype(float), 0, 100)
 
 
 def _sensitivity(model: Any, base_values: pd.Series, feature_names: list[str], scaler: Any | None = None) -> dict[str, Any]:
@@ -125,9 +219,21 @@ def evaluate_model_artifacts(scores: pd.DataFrame) -> dict[str, Any]:
     if latest.empty:
         return {"status": "skipped_no_score_features", "features": WHAT_IF_FEATURES, "models": []}
 
+    training = _training_frame(scores)
+    split_index = max(1, int(len(training) * (1 - TEST_SHARE))) if not training.empty else 0
+    test_frame = training.iloc[split_index:] if split_index < len(training) else pd.DataFrame()
+    valid_target = pd.to_numeric(scores.get(TARGET_COLUMN, pd.Series(dtype=float)), errors="coerce").dropna()
+    prediction_date = (
+        str((valid_target.index[-1] + pd.DateOffset(months=HORIZON_MONTHS)).date()) if not valid_target.empty else None
+    )
+
     payload = {
         "status": "evaluated",
         "source": "saved_model_files",
+        "target": f"{TARGET_COLUMN}_{HORIZON_MONTHS}_months_ahead",
+        "horizon_months": HORIZON_MONTHS,
+        "prediction_date": prediction_date,
+        "latest_overall_health": round(float(valid_target.iloc[-1]), 4) if not valid_target.empty else None,
         "features": WHAT_IF_FEATURES,
         "base_input": {feature: round(float(latest[feature]), 4) for feature in WHAT_IF_FEATURES},
         "models": [],
@@ -166,6 +272,9 @@ def evaluate_model_artifacts(scores: pd.DataFrame) -> dict[str, Any]:
                     "sensitivity": _sensitivity(model, latest, feature_names, scaler),
                 }
             )
+            if not test_frame.empty:
+                predictions = _predict_frame(model, test_frame, feature_names, scaler)
+                result["metrics"] = _regression_metrics(test_frame["target"].to_numpy(dtype=float), predictions)
         except Exception as exc:
             result.update({"status": "unavailable", "reason": str(exc)})
 
