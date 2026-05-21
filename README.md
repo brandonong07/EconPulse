@@ -1,48 +1,115 @@
 # EconPulse
 
-2026 HackDavis
+A student-centered economic dashboard that converts public FRED macroeconomic data into practical financial awareness tools for students, young adults, and early investors.
 
-EconPulse is a student-centered economic dashboard that turns public FRED
-economic indicators into practical financial awareness for students and young
-adults.
+Built for HackDavis 2026, EconPulse combines data pipelines, machine learning models, scenario simulation, and an interactive frontend to make economic conditions easier to interpret.
 
-Coding Languages: JavaScript, TypeScript, HTML, CSS
+## Project overview
 
-## Tech Stack
+Economic indicators are often scattered across government dashboards, dense reports, and disconnected datasets. EconPulse brings these indicators into one interface and translates them into a more intuitive view of economic health.
 
-- Frontend: React 18, TypeScript, Vite, Recharts, lucide-react, CSS
-- Backend: Python, pandas, NumPy, scikit-learn, optional XGBoost
-- Data: FRED API when available, cached/mock data fallback
-- Outputs: JSON files consumed by the frontend from `frontend/public/data`
+The project focuses on questions like:
 
-## Run Backend
+- Is the labor market strengthening or weakening?
+- Is inflation pressure rising or cooling?
+- How do different indicators combine into an overall economic health score?
+- How do model predictions change under different economic scenarios?
 
-```powershell
-py -m backend.run_pipeline
+## Key features
+
+- Economic dashboard using FRED-style macro indicators
+- Processed data pipeline with cached/mock fallback support
+- Model Hub comparing Linear Regression, Ridge Regression, and XGBoost
+- Scenario simulator for changing category assumptions
+- Interactive frontend built with React, TypeScript, Vite, and Recharts
+- Backend pipeline using Python, pandas, NumPy, and scikit-learn
+
+## Tech stack
+
+**Frontend**
+- React
+- TypeScript
+- Vite
+- Recharts
+- lucide-react
+- CSS
+
+**Backend**
+- Python
+- pandas
+- NumPy
+- scikit-learn
+- Optional XGBoost
+
+**Data**
+- FRED API when available
+- Cached or mock data fallback
+- Processed JSON files served to the frontend
+
+## Repository structure
+
+```text
+EconPulse/
+├── backend/
+├── data/
+├── frontend/
+│   └── public/data/
+└── README.md
 ```
 
-The backend writes processed files to `data/processed` and syncs them into
-`frontend/public/data`.
+## Run the backend
 
-## Run Frontend
+```bash
+python -m backend.run_pipeline
+```
 
-```powershell
+The backend writes processed files to `data/processed` and syncs frontend-ready outputs into:
+
+```text
+frontend/public/data
+```
+
+## Run the frontend
+
+```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-## Dashboard Tabs
+## Dashboard sections
 
-- Dashboard: latest economic health and category scores
-- Model Hub: Linear Regression, Ridge Regression, and XGBoost forecast comparison
-- What-If: slider-based scenario simulator
-- Documentation: project stack, pipeline, data files, and model notes
+| Section | Purpose |
+|---|---|
+| Dashboard | Displays current economic health and category-level scores |
+| Model Hub | Compares model forecasts and validation metrics |
+| What-If Simulator | Tests scenario changes with slider-based inputs |
+| Documentation | Explains pipeline, stack, and data files |
 
-## Model Notes
+## Modeling approach
 
-The model hub forecasts overall economic health three months ahead. Simple
-shortcut forecasts were removed so the app focuses on trained models and their
-validation metrics. In the simulator, switching models changes only the
-predicted overall health card; the category inputs remain fixed so model
-differences are easy to compare.
+The model hub forecasts overall economic health three months ahead. The project compares multiple supervised learning models so users can see how different model assumptions affect predictions.
+
+Current model comparison includes:
+
+- Linear Regression
+- Ridge Regression
+- XGBoost, when available
+
+## What I learned
+
+This project helped me connect economics, statistics, and software engineering in one system. I practiced building an end-to-end data product, from data ingestion and preprocessing to modeling, frontend design, and deployment.
+
+## Planned improvements
+
+- Add more economic indicators and metadata
+- Improve model validation and backtesting
+- Add time-series models
+- Add confidence intervals or uncertainty bands
+- Improve responsive design
+- Add richer documentation for each indicator
+- Add automated tests for backend data transformations
+
+## Candidate signal
+
+EconPulse reflects my interest in quantitative finance, macroeconomic data, and applied machine learning. I built this project to show that I can work across data pipelines, statistical modeling, and frontend product design.
