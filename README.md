@@ -1,4 +1,10 @@
+## Disclaimer
+
+EconPulse is an educational project and is not financial advice.
+
 # EconPulse
+
+**Live Demo:** [econ-pulse-9cuc.vercel.app](https://econ-pulse-9cuc.vercel.app/)
 
 A student-centered economic dashboard that converts public FRED macroeconomic data into practical financial awareness tools for students, young adults, and early investors.
 
