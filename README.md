@@ -1,7 +1,3 @@
-## Disclaimer
-
-EconPulse is an educational project and is not financial advice.
-
 # EconPulse
 
 **Live Demo:** [econ-pulse-9cuc.vercel.app](https://econ-pulse-9cuc.vercel.app/)
@@ -20,6 +16,22 @@ The project focuses on questions like:
 - Is inflation pressure rising or cooling?
 - How do different indicators combine into an overall economic health score?
 - How do model predictions change under different economic scenarios?
+
+## Screenshots
+
+### Model Hub
+
+![Model Hub](docs/screenshots/model-hub.png)
+
+### Model Cards
+
+![Multiple Linear Regression](docs/screenshots/multi-linear-regression.png)
+
+![XGBoost](docs/screenshots/xgboost.png)
+
+![LightGBM](docs/screenshots/lightgbm.png)
+
+![MLP Neural Network](docs/screenshots/mlp-neural-network.png)
 
 ## Key features
 
@@ -130,6 +142,10 @@ This project helped me connect economics, statistics, and software engineering i
 - Improve responsive design
 - Add richer documentation for each indicator
 - Add automated tests for backend data transformations
+
+## Disclaimer
+
+EconPulse is an educational project and is not financial advice.
 
 ## Candidate signal
 
