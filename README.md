@@ -37,7 +37,7 @@ The project focuses on questions like:
 
 - Economic dashboard using FRED-style macro indicators
 - Processed data pipeline with cached/mock fallback support
-- Model Hub comparing Linear Regression, Ridge Regression, and XGBoost
+- Model Hub comparing Multiple Linear Regression, XGBoost, LightGBM, MLP Neural Network
 - Scenario simulator for changing category assumptions
 - Interactive frontend built with React, TypeScript, Vite, and Recharts
 - Backend pipeline using Python, pandas, NumPy, and scikit-learn
