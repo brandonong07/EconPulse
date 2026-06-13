@@ -102,6 +102,21 @@ Current model comparison includes:
 - Ridge Regression
 - XGBoost, when available
 
+## Model Performance
+
+The Model Hub compares several supervised learning models for a 3-month economic health forecast.
+
+| Model | Forecasted Health | MAE | RMSE | R² |
+|---|---:|---:|---:|---:|
+| Multiple Linear Regression | 41.8 | 2.72 | 3.29 | 0.871 |
+| XGBoost | 41.6 | 2.06 | 2.51 | 0.925 |
+| LightGBM | 42.1 | 2.08 | 2.41 | 0.930 |
+| MLP Neural Network | 39.7 | 2.38 | 2.84 | 0.903 |
+
+Lower MAE and RMSE indicate smaller forecast errors. Higher R² indicates that the model explains more variation in the future economic health target.
+
+LightGBM performed best overall, with the lowest RMSE and highest R² among the tested models. XGBoost had the lowest MAE, making both gradient-boosting models stronger than the linear and neural-network baselines.
+
 ## What I learned
 
 This project helped me connect economics, statistics, and software engineering in one system. I practiced building an end-to-end data product, from data ingestion and preprocessing to modeling, frontend design, and deployment.
