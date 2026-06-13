@@ -37,8 +37,7 @@ The project focuses on questions like:
 
 - Economic dashboard using FRED-style macro indicators
 - Processed data pipeline with cached/mock fallback support
-- Model Hub comparing Multiple Linear Regression, XGBoost, LightGBM, MLP Neural Network
-- Scenario simulator for changing category assumptions
+- Model Hub comparing Multiple Linear Regression, XGBoost, LightGBM, and an MLP Neural Network- Scenario simulator for changing category assumptions
 - Interactive frontend built with React, TypeScript, Vite, and Recharts
 - Backend pipeline using Python, pandas, NumPy, and scikit-learn
 
@@ -110,9 +109,10 @@ The model hub forecasts overall economic health three months ahead. The project 
 
 Current model comparison includes:
 
-- Linear Regression
-- Ridge Regression
-- XGBoost, when available
+- Multiple Linear Regression
+- XGBoost
+- LightGBM
+- MLP Neural Network
 
 ## Model Performance
 
