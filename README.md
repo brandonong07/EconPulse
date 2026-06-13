@@ -58,6 +58,10 @@ The project focuses on questions like:
 - scikit-learn
 - Optional XGBoost
 
+## Data sources
+
+EconPulse uses public macroeconomic indicators from FRED where available, with cached/mock fallback data for development and demo stability.
+
 **Data**
 - FRED API when available
 - Cached or mock data fallback
