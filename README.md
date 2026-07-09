@@ -65,7 +65,8 @@ The project focuses on questions like:
 - pandas
 - NumPy
 - scikit-learn
-- Optional XGBoost
+- XGBoost
+- LightGBM
 
 ## Data sources
 
@@ -171,6 +172,8 @@ Current model comparison includes:
 
 ## Model Performance
 
+- The target variable is a three-month-ahead economic health score derived from the processed macroeconomic indicator categories.
+
 The Model Hub compares several supervised learning models for a 3-month economic health forecast.
 
 | Model | Forecasted Health | MAE | RMSE | R² |
@@ -188,6 +191,13 @@ LightGBM performed best overall, with the lowest RMSE and highest R² among the 
 
 This project helped me connect economics, statistics, and software engineering in one system. I practiced building an end-to-end data product, from data ingestion and preprocessing to modeling, frontend design, and deployment.
 
+## Limitations
+
+- This project is educational and should not be used as financial advice.
+- Model outputs depend on the selected indicators and available historical data.
+- The economic health score is a simplified proxy and does not capture every macroeconomic condition.
+- Forecasts are sensitive to feature engineering choices and may not generalize across all regimes.
+
 ## Planned improvements
 
 - Add more economic indicators and metadata
@@ -198,12 +208,6 @@ This project helped me connect economics, statistics, and software engineering i
 - Add richer documentation for each indicator
 - Add automated tests for backend data transformations
 
-## Limitations
-
-- This project is educational and should not be used as financial advice.
-- Model outputs depend on the selected indicators and available historical data.
-- The economic health score is a simplified proxy and does not capture every macroeconomic condition.
-- Forecasts are sensitive to feature engineering choices and may not generalize across all regimes.
 
 ## Candidate signal
 
