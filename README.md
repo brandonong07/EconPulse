@@ -33,11 +33,20 @@ The project focuses on questions like:
 
 ![MLP Neural Network](docs/screenshots/mlp-neural-network.png)
 
+## My Contribution
+
+- Built backend data processing scripts using Python, pandas, and NumPy
+- Helped design the economic health scoring logic and model comparison workflow
+- Integrated processed model outputs into frontend-ready JSON files
+- Contributed to the Model Hub and scenario simulation logic
+- Documented model performance and project limitations
+
 ## Key features
 
 - Economic dashboard using FRED-style macro indicators
 - Processed data pipeline with cached/mock fallback support
-- Model Hub comparing Multiple Linear Regression, XGBoost, LightGBM, and an MLP Neural Network- Scenario simulator for changing category assumptions
+- Model Hub comparing Multiple Linear Regression, XGBoost, LightGBM, and an MLP Neural Network
+- Scenario simulator for changing category assumptions
 - Interactive frontend built with React, TypeScript, Vite, and Recharts
 - Backend pipeline using Python, pandas, NumPy, and scikit-learn
 
@@ -147,9 +156,12 @@ This project helped me connect economics, statistics, and software engineering i
 - Add richer documentation for each indicator
 - Add automated tests for backend data transformations
 
-## Disclaimer
+## Limitations
 
-EconPulse is an educational project and is not financial advice.
+- This project is educational and should not be used as financial advice.
+- Model outputs depend on the selected indicators and available historical data.
+- The economic health score is a simplified proxy and does not capture every macroeconomic condition.
+- Forecasts are sensitive to feature engineering choices and may not generalize across all regimes.
 
 ## Candidate signal
 
