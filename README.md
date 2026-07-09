@@ -69,12 +69,54 @@ The project focuses on questions like:
 
 ## Data sources
 
-EconPulse uses public macroeconomic indicators from FRED where available, with cached/mock fallback data for development and demo stability.
+- EconPulse uses public macroeconomic indicators from FRED where available, with cached/mock fallback data for development and demo stability.
+- The latest metric snapshot includes values from February 2026 through May 2026, depending on each series' latest available release date.
 
 **Data**
 - FRED API when available
 - Cached or mock data fallback
 - Processed JSON files served to the frontend
+
+## Indicators Used
+
+EconPulse organizes FRED-style macroeconomic indicators into six economic pressure categories:
+
+### Rent Pressure
+- Rent CPI (`CUSR0000SEHA`)
+- Shelter CPI (`CUSR0000SAH1`)
+- 30-Year Mortgage Rate (`MORTGAGE30US`)
+- Federal Funds Rate (`FEDFUNDS`)
+- Real Wages (`AHETPI`)
+- U.S. National Home Price Index (`CSUSHPISA`)
+
+### Job Market
+- Unemployment Rate (`UNRATE`)
+- Job Openings (`JTSJOL`)
+- Initial Jobless Claims (`ICSA`)
+- Labor Force Participation Rate (`CIVPART`)
+- Average Hourly Earnings (`CES0500000003`)
+
+### Inflation Pressure
+- CPI: All Items (`CPIAUCSL`)
+- Core CPI (`CPILFESL`)
+- Food CPI (`CPIUFDSL`)
+- Energy CPI (`CPIENGSL`)
+- Regular Gas Prices (`GASREGCOVW`)
+
+### Borrowing Pressure
+- Federal Funds Rate (`FEDFUNDS`)
+- Credit Card Interest Rate (`TERMCBCCALLNS`)
+- 30-Year Mortgage Rate (`MORTGAGE30US`)
+
+### Wage Strength
+- Average Hourly Earnings (`CES0500000003`)
+- Real Hourly Earnings (`CES0500000011`)
+- CPI Inflation (`CPIAUCSL`)
+
+### Consumer Sentiment
+- University of Michigan Consumer Sentiment Index (`UMCSENT`)
+
+These indicators are processed into category-level scores and an overall economic health score. The dashboard uses the latest available values and year-over-year changes to help users interpret macroeconomic conditions across affordability, labor, inflation, borrowing, wages, and sentiment.
 
 ## Repository structure
 
